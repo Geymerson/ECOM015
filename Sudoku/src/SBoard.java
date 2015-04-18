@@ -17,8 +17,9 @@ public class SBoard {
 	//private String difficult;
 	
 	SBoard(String difficult) {
-		//Initiate board
+		//Initiate boards
 		this.board = new int[9][9];
+		this.playerBoard = new int[9][9];
 		
 		//Set all boards cells to a not filled state "0"
 		this.filledCells = new int[81];
@@ -42,9 +43,9 @@ public class SBoard {
 		return board[row][column];
 	}//End method getCell
 	
-	public void showSolution() {
-		//TODO
-	}
+//	public void printBoard() {
+//		
+//	}
 	
 	public void saveBoard() {
 		//TODO
@@ -79,7 +80,7 @@ public class SBoard {
 			sudokuBoard = new BufferedReader(
 							new FileReader("../GameFiles/sudokuBoards.txt"));
 			while((line = sudokuBoard.readLine()) != null) {
-				if((boardNumber - 1) == lineCounter) {
+				if(boardNumber == (lineCounter + 1)) {
 					for(int i = 0; i < line.length(); i++) {
 						for(int row = 0; row < 9; row++) {
 							for(int column = 0; column < 9; column++) {
