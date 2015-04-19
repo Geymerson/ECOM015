@@ -64,8 +64,7 @@ public class SBoard {
 		//TODO
 	}
 	
-	public boolean launchBoard(String difficult) throws IOException {
-		
+	public boolean launchGameBoard(String difficult) throws IOException {
 		//File line receiver
 		String line;
 		
@@ -118,7 +117,7 @@ public class SBoard {
 			sudokuBoard.close();
 		}
 		return true;
-	}//End method launchBoard
+	}//End method launchGameBoard
 	
 	//Launch player board
 	public void launchPlayerBoard() {
@@ -141,4 +140,4 @@ public class SBoard {
 			}//End loop while
 		}//End loop for
 	}//End method launchPlayerBoard
-}
+}//End class SBoard
