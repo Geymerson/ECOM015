@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
 
-public class SBoard {
+public class SBoard implements SBoardInterface {
 	//Game board
 	private int [][] gameBoard;
 	
@@ -62,10 +62,6 @@ public class SBoard {
 		}
 		return board[row][column];
 	}//End method getCell	
-	
-	public void saveBoard() {
-		//TODO
-	}
 	
 	public boolean launchGameBoard(String difficult) throws IOException {
 		//File line receiver
