@@ -1,5 +1,6 @@
+import java.io.IOException;
+
 public class SOptions {
-	
 	public void restarGame(SBoard game) {
 		game.restartBoard();
 	}
@@ -7,19 +8,11 @@ public class SOptions {
 		//TODO
 	}
 	
-	public void newGame() {
-		//TODO
+	public void newGame(SBoard game, String difficult) throws IOException {
+		game.newBoard(difficult);
 	}
 	
 	public void loadGame() {
 		//TODO
 	}
-	
-	public void setDifficultLevel(String difficult) {
-		
-	}
-	
-//	public String getDifficult() {
-//		//TODO
-//	}
 }
