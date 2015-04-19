@@ -22,7 +22,19 @@ public class SPlayer {
 		return this.score;
 	}
 	
-	public void setScore(int score) {
-		this.score = score;
+	public void setPlayerScore(int score) {
+		if(score >= 0) {
+			this.score = score;
+		}
+	}
+	
+	public void setPlayerProfile(String profile) {
+		if(profile != "") {
+			this.playerProfile = profile;
+		}
+	}
+	
+	public String getPlayerProfile() {
+		return this.playerProfile;
 	}
 }
