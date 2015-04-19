@@ -8,7 +8,8 @@ public class SOptions {
 		//TODO
 	}
 	
-	public void newGame(SBoard game, String difficult) throws IOException {
+	public void newGame(SBoard game, String difficult)
+			throws IOException {
 		game.newBoard(difficult);
 	}
 	

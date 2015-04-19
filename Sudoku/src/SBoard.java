@@ -76,7 +76,8 @@ public class SBoard implements SBoardInterface {
 		return board[row][column];
 	}//End method getCell	
 	
-	public boolean launchGameBoard(String difficult) throws IOException {
+	public boolean launchGameBoard(String difficult)
+			throws IOException {
 		//File line receiver
 		String line;
 		
@@ -101,7 +102,8 @@ public class SBoard implements SBoardInterface {
 		}
 		
 		try {
-			this.sudokuBoard = new BufferedReader(
+			this.sudokuBoard =
+					new BufferedReader(
 							new FileReader("../GameFiles/sudokuBoards.txt"));
 			while((line = sudokuBoard.readLine()) != null) {
 				if(boardNumber == (lineCounter + 1)) {
