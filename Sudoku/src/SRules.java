@@ -1,5 +1,6 @@
 public class SRules {
-	public void validateBoard() {
+	public boolean validateBoard() {
 		//TODO
+		return true;
 	}
 }
