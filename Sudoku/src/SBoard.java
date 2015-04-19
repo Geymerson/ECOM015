@@ -11,12 +11,15 @@ public class SBoard implements SBoardInterface {
 	//Player board;
 	private int [][] playerBoard;
 	
+	//Restart board
+	private int [][] restartBoard;
+	
 	//Sudoku ready board
 	private BufferedReader sudokuBoard;
 	
-	//private String difficult;
+	//private String[] difficult = {"Easy","Medium","Hard"};
 	
-	SBoard(String difficult) {
+	SBoard() {
 		//Initiate boards
 		this.gameBoard = new int[9][9];
 		this.playerBoard = new int[9][9];
@@ -40,12 +43,22 @@ public class SBoard implements SBoardInterface {
 	}
 	
 	public int[][] getPlayerBoard() {
-		return playerBoard;
+		return this.playerBoard;
 	}
 	
 	public void setPlayerBoard(int [][] board) {
 		if(board != null) {
 			this.playerBoard = board;
+		}
+	}
+	
+	public int[][] getRestartBoard() {
+		return this.restartBoard;
+	}
+	
+	public void setRestartBoard(int [][] board) {
+		if(board != null) {
+			this.restartBoard = board;
 		}
 	}
 
@@ -138,5 +151,15 @@ public class SBoard implements SBoardInterface {
 				}
 			}//End loop while
 		}//End loop for
+		this.setRestartBoard(this.getPlayerBoard());
 	}//End method launchPlayerBoard
+	
+	public void restartBoard() {
+		this.setPlayerBoard(this.getRestartBoard());
+	}
+	
+	public void newBoard(String difficult) throws IOException {
+		this.launchGameBoard(difficult);
+		this.launchPlayerBoard();
+	}
 }//End class SBoard
