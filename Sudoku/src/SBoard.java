@@ -19,7 +19,7 @@ public class SBoard implements SBoardInterface {
 	
 	//private String[] difficult = {"Easy","Medium","Hard"};
 	
-	SBoard() {
+	public SBoard() {
 		//Initiate boards
 		this.gameBoard = new int[9][9];
 		this.playerBoard = new int[9][9];
@@ -133,7 +133,6 @@ public class SBoard implements SBoardInterface {
 		return true;
 	}//End method launchGameBoard
 	
-	//Launch player board
 	public void launchPlayerBoard() {
 		Random randomicNumberGenerator = new Random();
 		for(int row = 0; row < 9; row++) {
