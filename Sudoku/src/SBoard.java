@@ -36,7 +36,11 @@ public class SBoard implements SBoardInterface {
 	}
 	
 	public void setBoardNumber(int number) {
-		this.boardNumber = number;
+		if((number >= 2 && number <= 11)||
+				(number >= 13 && number <= 22)||
+				(number >= 24 && number <= 33)) {
+			this.boardNumber = number;
+		}
 	}
 	
 	public int getBoardNumber() {

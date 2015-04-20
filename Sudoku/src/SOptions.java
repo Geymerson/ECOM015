@@ -18,19 +18,42 @@ public class SOptions {
 	public void saveGame() throws IOException {		
 		BufferedWriter bufferedWriter = null;		
 		try {
+			//Creating player's profile file
 			bufferedWriter =
 					new BufferedWriter(
 							new FileWriter(playerProfile));
             bufferedWriter.write('<');
+            //Saving player's name
             bufferedWriter.write(player.getPlayerName());
             bufferedWriter.write(',');
+            //Saving player's score
             bufferedWriter.write(player.getPlayerScore());
-            bufferedWriter.write(board.getBoardNumber());
             bufferedWriter.write(',');
+            //Saving player's board number
+            bufferedWriter.write(board.getBoardNumber());
+            bufferedWriter.write(",]");
             
+            //Save current player board state
             for(int row = 0; row < 9; row++) {
             	for(int column = 0; column < 9; column++) {
-            		board.getCell(row, column, board.getPlayerBoard());
+            		bufferedWriter.write('(');
+            		bufferedWriter.write(row);
+            		bufferedWriter.write(',');
+            		bufferedWriter.write(column);
+            		bufferedWriter.write(',');
+            		bufferedWriter.write(
+            				board.getCell(row, column, board.getPlayerBoard()));
+            		bufferedWriter.write(')');
+            		
+            		if(!(row == 8 && column == 8)) {
+            			bufferedWriter.write(',');
+            		}
+            	}
+            	if(row == 8){
+            		bufferedWriter.write("]>");
+            	}
+            	else {
+            		bufferedWriter.write("\n");
             	}
             }
             player.setPlayerProfile(playerProfile);
