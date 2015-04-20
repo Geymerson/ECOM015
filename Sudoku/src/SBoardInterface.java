@@ -5,6 +5,12 @@ import java.io.IOException;
 import java.util.Random;
 
 public interface SBoardInterface {
+	//Set board number
+	public void setBoardNumber(int number);
+	
+	//Return board number
+	public int getBoardNumber();
+	
 	//Return game board
 	public int[][] getGameBoard();
 	
@@ -29,6 +35,7 @@ public interface SBoardInterface {
 	//Return the value at position (row, column) from the board 
 	public int getCell(int row, int column, int board[][]);
 	
+	//Launch game board
 	public boolean launchGameBoard(String difficult) throws IOException;
 	
 	//Launch player board

@@ -1,5 +1,8 @@
+/SBoard.class
+/SBoardInterface.class
+/SGUI.class
+/SOptions.class
 /SPlayer.class
 /SRules.class
-/SOptions.class
-/SGUI.class
-/SBoardInterface.class
+/sudokuBoards.txt
+/profiles.txt

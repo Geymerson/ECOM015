@@ -18,7 +18,7 @@ public class SPlayer {
 		}
 	}
 	
-	public int getPlayerScore(int score) {
+	public int getPlayerScore() {
 		return this.score;
 	}
 	

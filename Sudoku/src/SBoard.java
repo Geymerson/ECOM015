@@ -15,7 +15,10 @@ public class SBoard implements SBoardInterface {
 	private int [][] restartBoard;
 	
 	//Sudoku ready board
-	private BufferedReader sudokuBoard;
+	private BufferedReader sudokuBoardFile;
+	
+	//Current player board number
+	private int boardNumber;
 	
 	//private String[] difficult = {"Easy","Medium","Hard"};
 	
@@ -30,6 +33,14 @@ public class SBoard implements SBoardInterface {
 				this.setCell(row, column, 0, this.getPlayerBoard());
 			}
 		}
+	}
+	
+	public void setBoardNumber(int number) {
+		this.boardNumber = number;
+	}
+	
+	public int getBoardNumber() {
+		return this.boardNumber;
 	}
 	
 	public int[][] getGameBoard() {
@@ -90,27 +101,32 @@ public class SBoard implements SBoardInterface {
 		
 		//Choose a random "difficult" board
 		//Default difficult (easy 2 ~ 11)
-		int boardNumber =
+		int boardNum =
 				//Generate a random number between (2~11)
 				randomicNumberGenerator.nextInt(10) + 1;
 
 		if(difficult == "Medium") {
-			boardNumber += 11;
+			boardNum += 11;
 		}
 		else if(difficult == "Hard") {
-			boardNumber += 22;
+			boardNum += 22;
 		}
 		
+		this.setBoardNumber(boardNum);
+		
 		try {
-			this.sudokuBoard =
+			this.sudokuBoardFile =
 					new BufferedReader(
 							new FileReader("../GameFiles/sudokuBoards.txt"));
-			while((line = sudokuBoard.readLine()) != null) {
-				if(boardNumber == (lineCounter + 1)) {
+			while((line = sudokuBoardFile.readLine()) != null) {
+				if(boardNum == (lineCounter + 1)) {
 					for(int i = 0; i < line.length(); i++) {
 						for(int row = 0; row < 9; row++) {
 							for(int column = 0; column < 9; column++) {
-								this.gameBoard[row][column] = line.charAt(i); 
+								setCell(row,
+										column,
+										line.charAt(i),
+										this.getGameBoard());
 							}
 						}
 					}
@@ -123,12 +139,11 @@ public class SBoard implements SBoardInterface {
 			return false;
 		}
 		catch(IOException e) {
-			System.out.printf("Exception occurred trying to read %s",
-					this.sudokuBoard);
+			e.printStackTrace();
 			return false;
 		}
 		finally {
-			sudokuBoard.close();
+			sudokuBoardFile.close();
 		}
 		return true;
 	}//End method launchGameBoard
@@ -142,9 +157,10 @@ public class SBoard implements SBoardInterface {
 				//Choose a random column between 0 ~ 8
 				column = randomicNumberGenerator.nextInt(9) - 1;
 				//If the player board cell is empty
-				if(this.getCell(row, column, this.getPlayerBoard()) == 0) {
+				if(this.getCell(row,column, this.getPlayerBoard()) == 0) {
 					//Set player board cell same as game board cell
-					this.setCell(row, column,
+					this.setCell(row,
+							column,
 							//Cell from the game board
 							this.getCell(row, column, this.getGameBoard()),
 							this.getPlayerBoard());
