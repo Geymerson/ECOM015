@@ -1,0 +1,11 @@
+(row, column, value)
+<Playername,Score,BoardNumber,
+[(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),
+(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),
+(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),
+(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),
+(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),
+(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),
+(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),
+(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),
+(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v),(x,y,v)]>
