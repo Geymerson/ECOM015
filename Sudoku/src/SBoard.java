@@ -26,6 +26,7 @@ public class SBoard implements SBoardInterface {
 		//Initiate boards
 		this.gameBoard = new int[9][9];
 		this.playerBoard = new int[9][9];
+		this.boardNumber = 0;
 		
 		//Set all boards cells to a not filled state "0"
 		for(int row = 0; row < 9; row++) {
@@ -40,6 +41,9 @@ public class SBoard implements SBoardInterface {
 				(number >= 13 && number <= 22)||
 				(number >= 24 && number <= 33)) {
 			this.boardNumber = number;
+		}
+		else {
+			this.boardNumber = 0;
 		}
 	}
 	
@@ -99,31 +103,34 @@ public class SBoard implements SBoardInterface {
 		//Line where the board is located
 		int lineCounter = 0;
 		
-		//Random number generator to pick up
-		//random boards
-		Random randomicNumberGenerator = new Random();
-		
-		//Choose a random "difficult" board
-		//Default difficult (easy 2 ~ 11)
-		int boardNum =
-				//Generate a random number between (2~11)
-				randomicNumberGenerator.nextInt(10) + 1;
+		//Set a board if it isn't settled yet		
+		if(this.getBoardNumber() == 0) {
+			//Random number generator to pick up
+			//random boards
+			Random randomicNumberGenerator = new Random();
+			
+			//Choose a random "difficult" board
+			//Default difficult (easy 2 ~ 11)
+			int boardNum =
+					//Generate a random number between (2~11)
+					randomicNumberGenerator.nextInt(10) + 1;
 
-		if(difficult == "Medium") {
-			boardNum += 11;
+			if(difficult == "Medium") {
+				boardNum += 11;
+			}
+			else if(difficult == "Hard") {
+				boardNum += 22;
+			}
+			
+			this.setBoardNumber(boardNum);
 		}
-		else if(difficult == "Hard") {
-			boardNum += 22;
-		}
-		
-		this.setBoardNumber(boardNum);
 		
 		try {
 			this.sudokuBoardFile =
 					new BufferedReader(
 							new FileReader("../GameFiles/sudokuBoards.txt"));
 			while((line = sudokuBoardFile.readLine()) != null) {
-				if(boardNum == (lineCounter + 1)) {
+				if(this.getBoardNumber() == (lineCounter + 1)) {
 					for(int i = 0; i < line.length(); i++) {
 						for(int row = 0; row < 9; row++) {
 							for(int column = 0; column < 9; column++) {

@@ -2,6 +2,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.util.ArrayList;
 
 public class SOptions {
 	private SBoard board;
@@ -22,7 +25,7 @@ public class SOptions {
 			bufferedWriter =
 					new BufferedWriter(
 							new FileWriter(playerProfile));
-            bufferedWriter.write('<');
+           // bufferedWriter.write('<');
             //Saving player's name
             bufferedWriter.write(player.getPlayerName());
             bufferedWriter.write(',');
@@ -31,7 +34,8 @@ public class SOptions {
             bufferedWriter.write(',');
             //Saving player's board number
             bufferedWriter.write(board.getBoardNumber());
-            bufferedWriter.write(",]");
+            bufferedWriter.write(",");
+            //bufferedWriter.write(",[");
             
             //Save current player board state
             for(int row = 0; row < 9; row++) {
@@ -42,19 +46,21 @@ public class SOptions {
             		bufferedWriter.write(column);
             		bufferedWriter.write(',');
             		bufferedWriter.write(
-            				board.getCell(row, column, board.getPlayerBoard()));
+            				board.getCell(row,
+            						column,
+            						board.getPlayerBoard()));
             		bufferedWriter.write(')');
             		
             		if(!(row == 8 && column == 8)) {
             			bufferedWriter.write(',');
             		}
             	}
-            	if(row == 8){
-            		bufferedWriter.write("]>");
-            	}
-            	else {
-            		bufferedWriter.write("\n");
-            	}
+//            	if(row == 8){
+//            		bufferedWriter.write("]>");
+//            	}
+//            	else {
+//            		bufferedWriter.write("\n");
+//            	}
             }
             player.setPlayerProfile(playerProfile);
         }
@@ -74,7 +80,23 @@ public class SOptions {
 		board.newBoard(difficult);
 	}
 	
-	public void loadGame() {
-		//TODO
+	public void loadGame() throws IOException {
+		String line;
+		BufferedReader bufferedReader = null;
+		try {
+			//Creating player's profile file
+			bufferedReader =
+					new BufferedReader(
+							new FileReader(
+									player.getPlayerProfile()));
+			line = bufferedReader.readLine();
+			line.split(",");
+        }
+		catch(FileNotFoundException e) {
+			System.out.println("File could not be opened!");
+		}
+		finally {
+			bufferedReader.close();
+		}
 	}
 }
