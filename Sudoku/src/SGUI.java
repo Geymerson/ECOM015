@@ -2,14 +2,11 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-
 import javax.swing.JComboBox;
-
 import java.awt.Component;
 
 
@@ -37,11 +34,11 @@ public class SGUI extends JFrame {
 		
 		playerName = new JLabel("PlayerName");
 		constraints.fill = GridBagConstraints.BOTH;
-		addComponent(playerName, 0, 0, 11, 1);
+		addComponent(playerName, 0, 0, 2, 1);
 		
 		playerScore = new JLabel("PlayerScore");
 		//constraints.fill = GridBagConstraints.BOTH;
-		addComponent(playerScore, 1, 0, 11, 1);
+		addComponent(playerScore, 1, 0, 2, 1);
 		
 		for(int row = 2; row < 11; row++) {
 			for(int column = 0; column < 9; column ++) {
