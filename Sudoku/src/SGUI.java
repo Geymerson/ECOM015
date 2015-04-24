@@ -2,13 +2,19 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import javax.swing.JComboBox;
-import java.awt.Component;
 
+import javax.swing.JComboBox;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+
+import java.awt.Component;
 
 public class SGUI extends JFrame {
 	private GridBagLayout layout;
@@ -22,15 +28,18 @@ public class SGUI extends JFrame {
 	private JButton saveButton;
 	private JButton restartButton;
 	private JButton newGameButton;
+	private Font font;
+	private SBoard gameBoard;
+	
 
 	public SGUI() {
 		super("Sudoku");
 		layout = new GridBagLayout();
 		setLayout(layout);
+		font = new Font("SansSerif", Font.BOLD, 20);
 		cell = new JTextField[81];
 		constraints = new GridBagConstraints();
 		constraints.insets = new Insets(2,2,2,2);
-		int counter = 0;
 		
 		playerName = new JLabel("PlayerName");
 		constraints.fill = GridBagConstraints.BOTH;
@@ -40,10 +49,17 @@ public class SGUI extends JFrame {
 		//constraints.fill = GridBagConstraints.BOTH;
 		addComponent(playerScore, 1, 0, 2, 1);
 		
+		int counter = 0;
+		
 		for(int row = 2; row < 11; row++) {
 			for(int column = 0; column < 9; column ++) {
 				cell[counter] = new JTextField();
 				cell[counter].setPreferredSize(new Dimension(40, 40));
+				cell[counter].setFont(font);
+				cell[counter].setHorizontalAlignment(JTextField.CENTER);
+				cell[counter].getDocument().addDocumentListener(
+						new MyDocumentListener());
+				//cell[counter].setText("1" + counter);
 				//cell[counter].setBackground(bg);
 				//constraints.fill = GridBagConstraints.BOTH;
 				addComponent(cell[counter], row, column, 1, 1);
@@ -83,5 +99,29 @@ public class SGUI extends JFrame {
 		constraints.weighty = 2;
 		layout.setConstraints(component, constraints);
 		add(component);
-	}	
+	}
+	
+	private class MyDocumentListener implements DocumentListener {
+		public void changedUpdate(DocumentEvent event) {
+			//Empty method
+		}
+		public void insertUpdate(DocumentEvent event) {
+			String temp;
+			int value;
+			try {
+				//Get source of the event and
+				//get sources' string of size 1 (first char)
+				temp = event.getDocument().getText(0, 1);
+				value = Integer.parseInt(temp);
+				if(value >= 1 && value <= 9) {
+					//TODO
+				}
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+	    }
+	    public void removeUpdate(DocumentEvent event) {
+	        //Empty method
+	    }
+	}
 }

@@ -1,4 +1,14 @@
+/SBoard.class
+/SBoardInterface.class
+/SGUI.class
+/SOptions.class
+/SPlayer.class
+/SRules.class
+/SudokuTest.class
 /profile.su
 /profileModel.txt
 /profileModel.txt~
-/SudokuTest.class
+/sudokuBoards.txt
+/SGUI$1.class
+/SGUI$MyDocumentClass.class
+/SGUI$MyDocumentListener.class
