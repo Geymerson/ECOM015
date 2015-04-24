@@ -1,10 +1,4 @@
-/SBoard.class
-/SBoardInterface.class
-/SGUI.class
-/SOptions.class
-/SPlayer.class
-/SRules.class
-/sudokuBoards.txt
-/profiles.txt
+/profile.su
 /profileModel.txt
 /profileModel.txt~
+/SudokuTest.class
