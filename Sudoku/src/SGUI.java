@@ -18,7 +18,7 @@ import java.awt.Component;
 import java.io.IOException;
 
 public class SGUI extends JFrame {
-	private GridBagLayout layout;
+	private GridBagLayout gameLayout;
 	private GridBagConstraints constraints;
 	private JTextField[] cell;
 	private JLabel playerName;
@@ -35,12 +35,12 @@ public class SGUI extends JFrame {
 
 	public SGUI() {
 		super("Sudoku");
-		layout = new GridBagLayout();
-		setLayout(layout);
-		font = new Font("SansSerif", Font.BOLD, 20);
-		cell = new JTextField[81];
+		gameLayout = new GridBagLayout();
+		setLayout(gameLayout);
 		constraints = new GridBagConstraints();
 		constraints.insets = new Insets(2,2,2,2);
+		font = new Font("SansSerif", Font.BOLD, 20);
+		cell = new JTextField[81];
 		gameBoard = new SBoard();
 		
 		try {
@@ -51,26 +51,46 @@ public class SGUI extends JFrame {
 		}
 		
 		playerName = new JLabel("PlayerName");
-		constraints.fill = GridBagConstraints.BOTH;
-		addComponent(playerName, 0, 0, 2, 1);
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		addComponent(playerName, 0, 0, 1, 1);
 		
 		playerScore = new JLabel("PlayerScore");
+		//constraints.fill = GridBagConstraints.VERTICAL;
+		addComponent(playerScore, 12, 0, 2, 1);
+		
+		newGameButton = new JButton("New Game");
+		constraints.fill = GridBagConstraints.BOTH;
+		addComponent(newGameButton, 6, 11, 1, 1);
+		
+		restartButton = new JButton("Restart Game");
+		//constraints.fill = GridBagConstraints.HORIZONTAL;
+		addComponent(restartButton, 7, 11, 1, 1);
+		
+		loadButton = new JButton("Load Game");
+		//constraints.fill = GridBagConstraints.HORIZONTAL;
+		addComponent(loadButton, 8, 11, 1, 1);
+				
+		showSolutionButton = new JButton("Show Solution");
+		//constraints.fill = GridBagConstraints.HORIZONTAL;
+		addComponent(showSolutionButton, 9, 11, 1, 1);
+		
+		solveButton = new JButton("Solve");
 		//constraints.fill = GridBagConstraints.BOTH;
-		addComponent(playerScore, 1, 0, 2, 1);
+		addComponent(solveButton, 10, 11, 1, 1);
 		
 		int counter = 0;
 		
 		for(int row = 2; row < 11; row++) {
-			for(int column = 0; column < 9; column ++) {
+			for(int column = 1; column < 10; column ++) {
 				cell[counter] = new JTextField();
-				cell[counter].setPreferredSize(new Dimension(40, 40));
+				cell[counter].setPreferredSize(new Dimension(30, 30));
 				cell[counter].setFont(font);
 				cell[counter].setHorizontalAlignment(JTextField.CENTER);
 				cell[counter].getDocument().addDocumentListener(
 						new MyDocumentListener());
 				int playerBoardCell =
 						gameBoard.getCell(row - 2,
-								column,
+								column - 1,
 								gameBoard.getPlayerBoard());
 				if(playerBoardCell != 0) {
 					//System.out.printf("%d\n", playerBoardCell);
@@ -79,32 +99,11 @@ public class SGUI extends JFrame {
 				}
 				//cell[counter].setText("1" + counter);
 				//cell[counter].setBackground(bg);
-				//constraints.fill = GridBagConstraints.BOTH;
+				constraints.fill = GridBagConstraints.BOTH;
 				addComponent(cell[counter], row, column, 1, 1);
 				counter++;
 			}
 		}
-		
-		newGameButton = new JButton("New Game");
-		//constraints.fill = GridBagConstraints.BOTH;
-		addComponent(newGameButton, 6, 11, 1, 1);
-		
-		restartButton = new JButton("Restart Game");
-		//constraints.fill = GridBagConstraints.BOTH;
-		addComponent(restartButton, 7, 11, 1, 1);
-		
-		loadButton = new JButton("Load Game");
-		//constraints.fill = GridBagConstraints.BOTH;
-		addComponent(loadButton, 8, 11, 1, 1);
-				
-		showSolutionButton = new JButton("Show Solution");
-		//constraints.fill = GridBagConstraints.BOTH;
-		addComponent(showSolutionButton, 9, 11, 1, 1);
-		
-		solveButton = new JButton("Solve");
-		//constraints.fill = GridBagConstraints.BOTH;
-		addComponent(solveButton, 10, 11, 1, 1);
-		
 	}
 	
 	private void addComponent(Component component,
@@ -115,7 +114,7 @@ public class SGUI extends JFrame {
 		constraints.gridheight = height;
 		constraints.weightx = 2;
 		constraints.weighty = 2;
-		layout.setConstraints(component, constraints);
+		gameLayout.setConstraints(component, constraints);
 		add(component);
 	}
 	
@@ -123,23 +122,23 @@ public class SGUI extends JFrame {
 		public void changedUpdate(DocumentEvent event) {
 			//Empty method
 		}
+		
 		public void insertUpdate(DocumentEvent event) {
-			String temp;
-			int value;
-			try {
-				//Get source of the event and
-				//get sources' string of size 1 (first char)
-				temp = event.getDocument().getText(0, 1);
-				value = Integer.parseInt(temp);
-				if(value >= 1 && value <= 9) {
-					//TODO
-				}
-			} catch (BadLocationException e) {
-				e.printStackTrace();
-			}
+			JTextField match =  (JTextField) event.getDocument();
+//			GridBagLayout layout = gameLayout;
+//			for (Component comp : getComponents()) {
+//				if(comp == match) {
+//					GridBagConstraints gbc = layout.getConstraints(comp);
+//					int row = gbc.gridx;
+//					int column = gbc.gridy;
+//					System.out.printf("X pos %d, Y pos %d", row, column);
+//					break;
+//				}
+//			}
 	    }
+		
 	    public void removeUpdate(DocumentEvent event) {
-	        //Empty method
+	    	//TODO
 	    }
 	}
 }
