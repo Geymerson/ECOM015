@@ -15,6 +15,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
 import java.awt.Component;
+import java.io.IOException;
 
 public class SGUI extends JFrame {
 	private GridBagLayout layout;
@@ -40,6 +41,14 @@ public class SGUI extends JFrame {
 		cell = new JTextField[81];
 		constraints = new GridBagConstraints();
 		constraints.insets = new Insets(2,2,2,2);
+		gameBoard = new SBoard();
+		
+		try {
+			gameBoard.launchGameBoard("Hard");
+			gameBoard.launchPlayerBoard();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		playerName = new JLabel("PlayerName");
 		constraints.fill = GridBagConstraints.BOTH;
@@ -59,6 +68,15 @@ public class SGUI extends JFrame {
 				cell[counter].setHorizontalAlignment(JTextField.CENTER);
 				cell[counter].getDocument().addDocumentListener(
 						new MyDocumentListener());
+				int playerBoardCell =
+						gameBoard.getCell(row - 2,
+								column,
+								gameBoard.getPlayerBoard());
+				if(playerBoardCell != 0) {
+					//System.out.printf("%d\n", playerBoardCell);
+					cell[counter].setText(Integer.toString(playerBoardCell));
+					cell[counter].setEditable(false);
+				}
 				//cell[counter].setText("1" + counter);
 				//cell[counter].setBackground(bg);
 				//constraints.fill = GridBagConstraints.BOTH;

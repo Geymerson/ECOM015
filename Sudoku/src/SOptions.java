@@ -10,7 +10,7 @@ public class SOptions {
 	private SBoard board;
 	private SPlayer player;
 	String playerProfile =
-			"../GameFiles/"+
+			"GameFiles/"+
 			player.getPlayerName()+ 
 			".txt";
 	

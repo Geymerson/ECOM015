@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 public class SudokuTest {
@@ -7,5 +9,13 @@ public class SudokuTest {
 		testGui.setSize(540, 520);
 		testGui.setResizable(false);
 		testGui.setVisible(true);
+		
+//		SBoard gameBoard = new SBoard();
+//		try {
+//			gameBoard.launchGameBoard("Hard");
+//		} catch (IOException e) {
+//			System.out.println("IOException");
+//			e.printStackTrace();
+//		}
 	}
 }
