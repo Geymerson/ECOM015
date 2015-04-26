@@ -101,6 +101,7 @@ public class SGUI extends JFrame {
 
 		newGameButton = new JButton("New Game");
 		newGameButton.addActionListener(new ButtonHandler());
+		constraints.fill = GridBagConstraints.BOTH;
 		addComponent(newGameButton, 8, 11, 1, 1);
 
 		restartButton = new JButton("Restart Game");
@@ -108,9 +109,11 @@ public class SGUI extends JFrame {
 		addComponent(restartButton, 9, 11, 1, 1);
 		
 		saveButton = new JButton("Save Game");
+		saveButton.addActionListener(new ButtonHandler());
 		addComponent(saveButton, 10, 11, 1, 1);
 
 		loadButton = new JButton("Load Game");
+		loadButton.addActionListener(new ButtonHandler());
 		addComponent(loadButton, 8, 12, 1, 1);
 
 		showSolutionButton = new JButton("Show Solution");
@@ -230,6 +233,7 @@ public class SGUI extends JFrame {
 						JOptionPane.showInputDialog("Inform profile name");
 				try {
 					gameOptions.loadGame(profileName, player, gameBoard);
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
