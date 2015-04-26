@@ -21,6 +21,7 @@ public class SPlayer {
 	public void setPlayerName(String name) {
 		if(name != "") {
 			this.playerName = name;
+			setPlayerProfile(name);
 		}
 	}
 	
