@@ -3,16 +3,18 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
 
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-
-import javax.swing.JComboBox;
-
 import java.awt.Component;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -29,23 +31,45 @@ public class SGUI extends JFrame {
 	private JButton saveButton;
 	private JButton restartButton;
 	private JButton newGameButton;
+	private JRadioButton easyButton;
+	private JRadioButton mediumButton;
+	private JRadioButton hardButton;
+	private ButtonGroup difficultButtonsGroup;
 	private Font font;
 	private SBoard gameBoard;
 	private SPlayer player;
 	private SOptions gameOptions;
-
-
+	private String difficult;
+	
 	public SGUI() {
 		super("Sudoku");
 		gameLayout = new GridBagLayout();
 		setLayout(gameLayout);
+		//setBackground(bgColor);
 		constraints = new GridBagConstraints();
-		constraints.insets = new Insets(2,2,2,2);
+		//constraints.insets = new Insets(1,1,1,1);
 		font = new Font("SansSerif", Font.BOLD, 20);
 		cell = new JTextField[81];
 		gameBoard = new SBoard();
 		player = new SPlayer();
 		gameOptions = new SOptions();
+		
+		easyButton = new JRadioButton("Easy", true);
+		easyButton.addItemListener(new DifficultButtonsHandler("Easy"));
+		addComponent(easyButton, 8, 0, 1, 1);
+		
+		mediumButton = new JRadioButton("Medium", false);
+		mediumButton.addItemListener(new DifficultButtonsHandler("Medium"));
+		addComponent(mediumButton, 9, 0, 1, 1);
+		
+		hardButton = new JRadioButton("Hard", false);
+		hardButton.addItemListener(new DifficultButtonsHandler("Hard"));
+		addComponent(hardButton, 10, 0, 1, 1);
+		
+		difficultButtonsGroup = new ButtonGroup();
+		difficultButtonsGroup.add(easyButton);
+		difficultButtonsGroup.add(mediumButton);
+		difficultButtonsGroup.add(hardButton);
 		
 		try {
 			gameBoard.launchGameBoard("Hard");
@@ -70,40 +94,39 @@ public class SGUI extends JFrame {
 		else {
 			playerName = new JLabel(player.getPlayerName());
 		}
-		addComponent(playerName, 0, 0, 1, 1);
+		addComponent(playerName, 0, 0, 2, 1);
 
 		playerScore = new JLabel("PlayerScore: "+player.getPlayerScore());
 		addComponent(playerScore, 12, 0, 2, 1);
 
 		newGameButton = new JButton("New Game");
 		newGameButton.addActionListener(new ButtonHandler());
-		constraints.fill = GridBagConstraints.BOTH;
-		addComponent(newGameButton, 5, 11, 1, 1);
+		addComponent(newGameButton, 8, 11, 1, 1);
 
 		restartButton = new JButton("Restart Game");
 		restartButton.addActionListener(new ButtonHandler());
-		addComponent(restartButton, 6, 11, 1, 1);
+		addComponent(restartButton, 9, 11, 1, 1);
 		
 		saveButton = new JButton("Save Game");
-		addComponent(saveButton, 7, 11, 1, 1);
+		addComponent(saveButton, 10, 11, 1, 1);
 
 		loadButton = new JButton("Load Game");
-		addComponent(loadButton, 8, 11, 1, 1);
+		addComponent(loadButton, 8, 12, 1, 1);
 
 		showSolutionButton = new JButton("Show Solution");
 		showSolutionButton.addActionListener(new ButtonHandler());
-		addComponent(showSolutionButton, 9, 11, 1, 1);
+		addComponent(showSolutionButton, 9, 12, 1, 1);
 
 		solveButton = new JButton("Solve");
 		solveButton.addActionListener(new ButtonHandler());
-		addComponent(solveButton, 10, 11, 1, 1);
+		addComponent(solveButton, 10, 12, 1, 1);
 
 		int counter = 0;
 
 		for(int row = 2; row < 11; row++) {
 			for(int column = 1; column < 10; column ++) {
 				cell[counter] = new JTextField();
-				cell[counter].setPreferredSize(new Dimension(30, 30));
+				cell[counter].setPreferredSize(new Dimension(40, 40));
 				cell[counter].setFont(font);
 				cell[counter].setHorizontalAlignment(JTextField.CENTER);
 				int playerBoardCell =
@@ -115,8 +138,8 @@ public class SGUI extends JFrame {
 					cell[counter].setEditable(false);
 				}
 				//cell[counter].setBackground(bg);
-				constraints.fill = GridBagConstraints.BOTH;
-				addComponent(cell[counter], row, column, 1, 1);
+				//constraints.fill = GridBagConstraints.BOTH;
+				addComponent(cell[counter], row, column + 1, 1, 1);
 				counter++;
 			}
 		}
@@ -128,8 +151,8 @@ public class SGUI extends JFrame {
 		constraints.gridy = row;
 		constraints.gridwidth = width;
 		constraints.gridheight = height;
-		constraints.weightx = 2;
-		constraints.weighty = 2;
+		//constraints.weightx = 1;
+		//constraints.weighty = 1;
 		gameLayout.setConstraints(component, constraints);
 		add(component);
 	}
@@ -236,6 +259,20 @@ public class SGUI extends JFrame {
 					e.printStackTrace();
 				}
 			}
+		}
+	}
+	
+	private class DifficultButtonsHandler implements ItemListener {
+		
+		private String diffct;
+		
+		public DifficultButtonsHandler(String difficult) {
+			this.diffct = difficult;
+		}
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			difficult = diffct;
 		}
 	}
 }
