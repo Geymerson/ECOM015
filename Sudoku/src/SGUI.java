@@ -20,7 +20,7 @@ import java.io.IOException;
 public class SGUI extends JFrame {
 	private GridBagLayout gameLayout;
 	private GridBagConstraints constraints;
-	protected JTextField[] cell;
+	private JTextField[] cell;
 	private JLabel playerName;
 	private JLabel playerScore;
 	private JButton solveButton;
@@ -31,6 +31,8 @@ public class SGUI extends JFrame {
 	private JButton newGameButton;
 	private Font font;
 	private SBoard gameBoard;
+	private SPlayer player;
+	private SOptions gameOptions;
 
 
 	public SGUI() {
@@ -42,29 +44,53 @@ public class SGUI extends JFrame {
 		font = new Font("SansSerif", Font.BOLD, 20);
 		cell = new JTextField[81];
 		gameBoard = new SBoard();
-
+		player = new SPlayer();
+		gameOptions = new SOptions();
+		
 		try {
 			gameBoard.launchGameBoard("Hard");
 			gameBoard.launchPlayerBoard();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		playerName = new JLabel("PlayerName");
-		constraints.fill = GridBagConstraints.HORIZONTAL;
+		
+		while(player.getPlayerName().isEmpty()) {
+			player.setPlayerName(
+					JOptionPane.showInputDialog("Please, tell me your name!"));
+			//System.out.println("a" + player.getPlayerName());
+		}
+		player.setPlayerProfile(player.getPlayerName());
+		
+		//Fix needed for strings greater than 10
+		//it breaker the layout
+		if(player.getPlayerName().length() > 10) {
+			playerName = new JLabel(
+					player.getPlayerName().substring(0,7)+
+					"...");
+		}
+		else {
+			playerName = new JLabel(player.getPlayerName());
+		}
+		//constraints.fill = GridBagConstraints.HORIZONTAL;
 		addComponent(playerName, 0, 0, 1, 1);
 
-		playerScore = new JLabel("PlayerScore");
+		playerScore = new JLabel("PlayerScore: "+player.getPlayerScore());
 		//constraints.fill = GridBagConstraints.VERTICAL;
 		addComponent(playerScore, 12, 0, 2, 1);
 
 		newGameButton = new JButton("New Game");
+		newGameButton.addActionListener(new ButtonHandler());
 		constraints.fill = GridBagConstraints.BOTH;
-		addComponent(newGameButton, 6, 11, 1, 1);
+		addComponent(newGameButton, 5, 11, 1, 1);
 
 		restartButton = new JButton("Restart Game");
+		restartButton.addActionListener(new ButtonHandler());
 		//constraints.fill = GridBagConstraints.HORIZONTAL;
-		addComponent(restartButton, 7, 11, 1, 1);
+		addComponent(restartButton, 6, 11, 1, 1);
+		
+		saveButton = new JButton("Save Game");
+		//constraints.fill = GridBagConstraints.HORIZONTAL;
+		addComponent(saveButton, 7, 11, 1, 1);
 
 		loadButton = new JButton("Load Game");
 		//constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -93,7 +119,6 @@ public class SGUI extends JFrame {
 								column - 1,
 								gameBoard.getPlayerBoard());
 				if(playerBoardCell != 0) {
-					//System.out.printf("%d\n", playerBoardCell);
 					cell[counter].setText(Integer.toString(playerBoardCell));
 					cell[counter].setEditable(false);
 				}
@@ -139,6 +164,7 @@ public class SGUI extends JFrame {
 			}
 			else if (event.getSource() == showSolutionButton) {
 				int atPosition = 0;
+				solveButton.setEnabled(false);
 				for(int row = 0; row < 9; row++) {
 					for(int column = 0; column < 9; column++) {
 						if(cell[atPosition].isEditable()){
@@ -154,7 +180,17 @@ public class SGUI extends JFrame {
 				}
 			}
 			else if (event.getSource() == restartButton) {
-				
+				gameBoard.restartBoard();
+				solveButton.setEnabled(true);
+				int atPosition = 0;
+				for(int row = 0; row < 9; row++) {
+					for(int column = 0; column < 9; column++) {
+						if(cell[atPosition].isEditable()){
+							cell[atPosition].setText("");
+						}
+						atPosition++;
+					}
+				}
 			}
 			else if (event.getSource() == saveButton) {
 
@@ -163,7 +199,30 @@ public class SGUI extends JFrame {
 
 			}
 			else if (event.getSource() == newGameButton) {
-
+				try {
+					gameBoard.newBoard("Hard");
+					solveButton.setEnabled(true);
+					int atPosition = 0;
+					for(int row = 0; row < 9; row++) {
+						for(int column = 0; column < 9; column ++) {
+							cell[atPosition].setEditable(true);
+							cell[atPosition].setText("");
+							int playerBoardCell =
+									gameBoard.getCell(row,
+											column,
+											gameBoard.getPlayerBoard());
+							//System.out.printf("%d ", playerBoardCell);
+							if(playerBoardCell != 0) {
+								//System.out.printf("%d ", playerBoardCell);
+								cell[atPosition].setText(Integer.toString(playerBoardCell));
+								cell[atPosition].setEditable(false);
+							}
+							atPosition++;
+						}
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

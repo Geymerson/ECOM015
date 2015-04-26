@@ -3,10 +3,16 @@ public class SPlayer {
 	private String playerName;
 	
 	//Player score
-	private int score;
+	private int playerScore;
 	
 	//Player profile
 	private String playerProfile;
+	
+	public SPlayer() {
+		this.playerName = "";
+		this.playerScore = 0;
+		this.playerProfile = "";
+	}
 	
 	public String getPlayerName() {
 		return this.playerName;
@@ -19,18 +25,24 @@ public class SPlayer {
 	}
 	
 	public int getPlayerScore() {
-		return this.score;
+		return this.playerScore;
 	}
 	
 	public void setPlayerScore(int score) {
 		if(score >= 0) {
-			this.score = score;
+			this.playerScore = score;
 		}
 	}
 	
 	public void setPlayerProfile(String profile) {
 		if(profile != "") {
-			this.playerProfile = profile;
+			if(profile.substring(
+					profile.length() - 4,profile.length()) == ".txt") {
+				this.playerProfile = profile;
+			}
+			else {
+				this.playerProfile = profile + ".txt";
+			}
 		}
 	}
 	

@@ -45,6 +45,7 @@ public class SBoard implements SBoardInterface {
 		else {
 			this.boardNumber = 0;
 		}
+		//System.out.printf("The board number was changed to %d\n", this.getBoardNumber());
 	}
 
 	public int getBoardNumber() {
@@ -83,7 +84,7 @@ public class SBoard implements SBoardInterface {
 
 	public void setCell(int row, int column, int value, int board[][]) {
 		if(row < 0 || row >= 9 || column < 0 || column >= 9
-				|| value < 1 || value > 9) {
+				|| value < 0 || value > 9) {
 			return;
 		}
 		board[row][column] = value;
@@ -132,8 +133,6 @@ public class SBoard implements SBoardInterface {
 							new FileReader("GameFiles/sudokuBoards.txt"));
 			while((line = sudokuBoardFile.readLine())  != null) {
 				if(this.getBoardNumber() == (lineCounter + 1)) {
-					//System.out.println("Empty string");
-					//System.out.printf("BNumber %d\n", this.getBoardNumber());
 					int linePosition = 0;
 					for(int row = 0; row < 9; row++) {
 						for(int column = 0; column < 9; column++) {
@@ -145,7 +144,6 @@ public class SBoard implements SBoardInterface {
 									value,
 									this.getGameBoard());
 							linePosition++;
-							//System.out.printf("%d", value);
 						}
 					}
 				}
@@ -162,19 +160,10 @@ public class SBoard implements SBoardInterface {
 		finally {
 			this.sudokuBoardFile.close();
 		}
-		
-//		for(int row = 0; row < 9; row++) {
-//			for(int column = 0; column < 9; column++) {
-//				System.out.printf("%d ", getCell(row,
-//						column,
-//						this.getGameBoard()));
-//			}
-//			System.out.printf("\n");
-//		}
 		return true;
 	}//End method launchGameBoard
 
-	public void launchPlayerBoard() {
+	public void launchPlayerBoard() {		
 		Random randomicNumberGenerator = new Random();
 		for(int row = 0; row < 9; row++) {
 			int counter = 1;
@@ -194,14 +183,6 @@ public class SBoard implements SBoardInterface {
 				}
 			}//End loop while
 		}//End loop for
-//		for(int row = 0; row < 9; row++) {
-//			for(int column = 0; column < 9; column++) {
-//				System.out.printf("%d ", getCell(row,
-//						column,
-//						this.getPlayerBoard()));
-//			}
-//			System.out.printf("\n");
-//		}
 		this.setRestartBoard(this.getPlayerBoard());
 	}//End method launchPlayerBoard
 
@@ -210,7 +191,16 @@ public class SBoard implements SBoardInterface {
 	}
 
 	public void newBoard(String difficult) throws IOException {
+		this.setBoardNumber(0);
 		this.launchGameBoard(difficult);
+		for(int row = 0; row < 9; row++) {
+			for(int column = 0; column < 9; column++) {
+				this.setCell(row,
+						column,
+						0,
+						this.getPlayerBoard());
+			}
+		}
 		this.launchPlayerBoard();
 	}
 }//End class SBoard
