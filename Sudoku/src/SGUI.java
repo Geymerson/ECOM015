@@ -57,12 +57,11 @@ public class SGUI extends JFrame {
 		while(player.getPlayerName().isEmpty()) {
 			player.setPlayerName(
 					JOptionPane.showInputDialog("Please, tell me your name!"));
-			//System.out.println("a" + player.getPlayerName());
 		}
 		player.setPlayerProfile(player.getPlayerName());
 		
-		//Fix needed for strings greater than 10
-		//it breaker the layout
+		//Fix needed for strings greater than 10,
+		//it breaks the layout
 		if(player.getPlayerName().length() > 10) {
 			playerName = new JLabel(
 					player.getPlayerName().substring(0,7)+
@@ -71,11 +70,9 @@ public class SGUI extends JFrame {
 		else {
 			playerName = new JLabel(player.getPlayerName());
 		}
-		//constraints.fill = GridBagConstraints.HORIZONTAL;
 		addComponent(playerName, 0, 0, 1, 1);
 
 		playerScore = new JLabel("PlayerScore: "+player.getPlayerScore());
-		//constraints.fill = GridBagConstraints.VERTICAL;
 		addComponent(playerScore, 12, 0, 2, 1);
 
 		newGameButton = new JButton("New Game");
@@ -85,25 +82,20 @@ public class SGUI extends JFrame {
 
 		restartButton = new JButton("Restart Game");
 		restartButton.addActionListener(new ButtonHandler());
-		//constraints.fill = GridBagConstraints.HORIZONTAL;
 		addComponent(restartButton, 6, 11, 1, 1);
 		
 		saveButton = new JButton("Save Game");
-		//constraints.fill = GridBagConstraints.HORIZONTAL;
 		addComponent(saveButton, 7, 11, 1, 1);
 
 		loadButton = new JButton("Load Game");
-		//constraints.fill = GridBagConstraints.HORIZONTAL;
 		addComponent(loadButton, 8, 11, 1, 1);
 
 		showSolutionButton = new JButton("Show Solution");
 		showSolutionButton.addActionListener(new ButtonHandler());
-		//constraints.fill = GridBagConstraints.HORIZONTAL;
 		addComponent(showSolutionButton, 9, 11, 1, 1);
 
 		solveButton = new JButton("Solve");
 		solveButton.addActionListener(new ButtonHandler());
-		//constraints.fill = GridBagConstraints.BOTH;
 		addComponent(solveButton, 10, 11, 1, 1);
 
 		int counter = 0;
@@ -122,7 +114,6 @@ public class SGUI extends JFrame {
 					cell[counter].setText(Integer.toString(playerBoardCell));
 					cell[counter].setEditable(false);
 				}
-				//cell[counter].setText("1" + counter);
 				//cell[counter].setBackground(bg);
 				constraints.fill = GridBagConstraints.BOTH;
 				addComponent(cell[counter], row, column, 1, 1);

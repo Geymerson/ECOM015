@@ -20,8 +20,6 @@ public class SBoard implements SBoardInterface {
 	//Current player board number
 	private int boardNumber;
 
-	//private String[] difficult = {"Easy","Medium","Hard"};
-
 	public SBoard() {
 		//Initiate boards
 		this.gameBoard = new int[9][9];

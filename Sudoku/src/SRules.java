@@ -5,7 +5,7 @@ public class SRules {
 				int atPosition = 0;
 				int underVerificationValue = board[row][column];
 				while(atPosition < 9) {
-					//incomplete board 
+					//Empty cell 
 					if(underVerificationValue == 0) {
 						return false;
 					}
