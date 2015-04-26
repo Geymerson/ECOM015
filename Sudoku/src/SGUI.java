@@ -152,11 +152,21 @@ public class SGUI extends JFrame {
 				for(int row = 0; row < 9; row++) {
 					for(int column = 0; column < 9; column++) {
 						if(cell[atPosition].isEditable() &&
-								(cell[atPosition].getText().length()) == 1){
-							gameBoard.setCell(row,
-									column,
-									Integer.parseInt(cell[atPosition].getText()),
-									gameBoard.getPlayerBoard());
+								cell[atPosition].getText().length() == 1){
+							int cellValue = 
+									Integer.parseInt(cell[atPosition].getText());
+							if(cellValue >= 1 && cellValue <= 9) {
+								gameBoard.setCell(row,
+										column,
+										cellValue,
+										gameBoard.getPlayerBoard());
+							}
+							else {
+								gameBoard.setCell(row,
+										column,
+										0,
+										gameBoard.getPlayerBoard());
+							}
 						}
 						atPosition++;
 					}
@@ -204,14 +214,8 @@ public class SGUI extends JFrame {
 			else if (event.getSource() == loadButton) {
 				String profileName  =
 						JOptionPane.showInputDialog("Inform profile name");
-				
-				while(profileName.isEmpty()) {
-					profileName =
-							JOptionPane.showInputDialog("Inform profile name");
-				}
-				
 				try {
-					gameOptions.loadGame(profileName ,player, gameBoard);
+					gameOptions.loadGame(profileName, player, gameBoard);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
