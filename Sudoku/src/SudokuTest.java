@@ -13,6 +13,8 @@ public class SudokuTest {
 		SPlayer player = new SPlayer();
 		player.setPlayerName("fulano");
 		SBoard gameBoard = new SBoard();
+		SOptions options = new SOptions();
+		
 		try {
 			gameBoard.launchGameBoard("Hard");
 		} catch (IOException e) {
@@ -20,9 +22,8 @@ public class SudokuTest {
 			e.printStackTrace();
 		}
 		
-		SOptions options = new SOptions();
 		try {
-			options.loadGame(player, gameBoard);
+			options.loadGame("Sicrano", player, gameBoard);
 			//options.saveGame(player, gameBoard);
 		} catch (IOException e) {
 			e.printStackTrace();

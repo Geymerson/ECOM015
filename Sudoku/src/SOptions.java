@@ -81,7 +81,8 @@ public class SOptions {
 		board.newBoard(difficult);
 	}
 	
-	public void loadGame(SPlayer player, SBoard board) throws IOException {
+	public void loadGame(String profileName, SPlayer player,
+			SBoard board) throws IOException {
 		String line;
 		BufferedReader bufferedReader = null;
 		try {
@@ -90,7 +91,7 @@ public class SOptions {
 					new BufferedReader(
 							new FileReader(
 									"GameFiles/"
-							+player.getPlayerProfile()));
+							+profileName));
 			line = bufferedReader.readLine();
 			String[] temp = line.split(",");
 			//Get player information
@@ -112,6 +113,9 @@ public class SOptions {
 			JOptionPane.showMessageDialog(null,
 					"Profile doesn't exist.",
 					"Warning", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(IOException ee) {
+			ee.printStackTrace();
 		}
 		finally {
 			bufferedReader.close();

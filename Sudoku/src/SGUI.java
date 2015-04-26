@@ -144,7 +144,9 @@ public class SGUI extends JFrame {
 	}
 
 	private class ButtonHandler implements ActionListener {
+		
 		public void actionPerformed(ActionEvent event) {
+			
 			if(event.getSource() == solveButton) {
 				int atPosition = 0;
 				for(int row = 0; row < 9; row++) {
@@ -193,10 +195,26 @@ public class SGUI extends JFrame {
 				}
 			}
 			else if (event.getSource() == saveButton) {
-
+				try {
+					gameOptions.saveGame(player, gameBoard);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			else if (event.getSource() == loadButton) {
-
+				String profileName  =
+						JOptionPane.showInputDialog("Inform profile name");
+				
+				while(profileName.isEmpty()) {
+					profileName =
+							JOptionPane.showInputDialog("Inform profile name");
+				}
+				
+				try {
+					gameOptions.loadGame(profileName ,player, gameBoard);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			else if (event.getSource() == newGameButton) {
 				try {
@@ -211,10 +229,9 @@ public class SGUI extends JFrame {
 									gameBoard.getCell(row,
 											column,
 											gameBoard.getPlayerBoard());
-							//System.out.printf("%d ", playerBoardCell);
 							if(playerBoardCell != 0) {
-								//System.out.printf("%d ", playerBoardCell);
-								cell[atPosition].setText(Integer.toString(playerBoardCell));
+								cell[atPosition].setText(
+										Integer.toString(playerBoardCell));
 								cell[atPosition].setEditable(false);
 							}
 							atPosition++;
