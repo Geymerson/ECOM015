@@ -23,7 +23,7 @@ public class SudokuTest {
 		}
 		
 		try {
-			options.loadGame("Sicrano", player, gameBoard);
+			options.loadGame("fulano", player, gameBoard);
 			//options.saveGame(player, gameBoard);
 		} catch (IOException e) {
 			e.printStackTrace();

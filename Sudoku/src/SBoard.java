@@ -45,7 +45,6 @@ public class SBoard implements SBoardInterface {
 		else {
 			this.boardNumber = 0;
 		}
-		//System.out.printf("The board number was changed to %d\n", this.getBoardNumber());
 	}
 
 	public int getBoardNumber() {

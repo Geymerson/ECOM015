@@ -33,8 +33,8 @@ public class SOptions {
 			//Creating player's profile file
 			bufferedWriter =
 					new BufferedWriter(
-							new FileWriter("GameFiles/"
-									+player.getPlayerProfile()));
+							new FileWriter("GameFiles/"+
+					player.getPlayerProfile()));
 			//bufferedWriter.write("oqiwueoqiwueoqwiue");
             //Saving player's name
             bufferedWriter.write(player.getPlayerName());
@@ -90,8 +90,8 @@ public class SOptions {
 			bufferedReader =
 					new BufferedReader(
 							new FileReader(
-									"GameFiles/"
-							+profileName));
+									"GameFiles/"+
+							profileName + ".txt"));
 			line = bufferedReader.readLine();
 			String[] temp = line.split(",");
 			//Get player information
