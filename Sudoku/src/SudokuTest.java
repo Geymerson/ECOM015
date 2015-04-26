@@ -4,23 +4,24 @@ import javax.swing.JFrame;
 
 public class SudokuTest {
 	public static void main(String[] args) {
-		SGUI testGui = new SGUI();
-		testGui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		testGui.setSize(540, 520);
-		testGui.setResizable(false);
-		testGui.setVisible(true);
+//		SGUI testGui = new SGUI();
+//		testGui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		testGui.setSize(540, 520);
+//		testGui.setResizable(false);
+//		testGui.setVisible(true);
 		
 //		SPlayer player = new SPlayer();
 //		player.setPlayerName("fulano");
-//		SBoard gameBoard = new SBoard();
+		SBoard gameBoard = new SBoard();
 //		SOptions options = new SOptions();
 		
-//		try {
-//			gameBoard.launchGameBoard("Hard");
-//		} catch (IOException e) {
-//			System.out.println("IOException");
-//			e.printStackTrace();
-//		}
+		try {
+			gameBoard.launchGameBoard("Hard");
+			gameBoard.launchPlayerBoard();
+		} catch (IOException e) {
+			System.out.println("IOException");
+			e.printStackTrace();
+		}
 //		
 //		try {
 //			options.loadGame("fulano", player, gameBoard);
@@ -28,5 +29,12 @@ public class SudokuTest {
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
+		
+		SRules boardVerifier = new SRules();
+		
+		if(!boardVerifier.validateBoard(gameBoard.getPlayerBoard())) {
+			System.out.println("Try again!!!");
+		}
+		
 	}
 }
