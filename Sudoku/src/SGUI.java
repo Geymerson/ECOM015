@@ -2,15 +2,14 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
+//import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-//import javax.swing.JComboBox;
-
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 //import java.awt.Insets;
@@ -20,7 +19,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 public class SGUI extends JFrame {
 	private GridBagLayout gameLayout;
@@ -152,7 +151,6 @@ public class SGUI extends JFrame {
 					cell[counter].setText(Integer.toString(playerBoardCell));
 					cell[counter].setEditable(false);
 				}
-				//cell[counter].setBackground(bg);
 				addComponent(cell[counter], row, column + 1, 1, 1);
 				counter++;
 			}
