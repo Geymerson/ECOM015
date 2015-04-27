@@ -110,7 +110,7 @@ public class SGUI extends JFrame {
 			e.printStackTrace();
 		}
 		
-		
+		//Setting player name
 		try {
 			while(player.getPlayerName().isEmpty()) {
 				player.setPlayerName(
@@ -119,6 +119,7 @@ public class SGUI extends JFrame {
 		} catch (NullPointerException e) {
 			player.setPlayerName("Player");
 		}
+		//Setting player profile name
 		player.setPlayerProfile(player.getPlayerName());
 		
 		//Fix needed for strings greater than 10,
@@ -132,7 +133,8 @@ public class SGUI extends JFrame {
 			playerName = new JLabel(player.getPlayerName());
 		}
 		addComponent(playerName, 0, 0, 2, 1);
-
+		
+		//Adding graphic interface components
 		playerScore = new JLabel("PlayerScore: "+player.getPlayerScore());
 		addComponent(playerScore, 12, 0, 2, 1);
 
@@ -183,6 +185,7 @@ public class SGUI extends JFrame {
 		}
 	}//End class empty constructor
 
+	//Private method to add graphic components
 	private void addComponent(Component component,
 			int row, int column, int width, int height) {
 		constraints.gridx = column;
@@ -231,6 +234,8 @@ public class SGUI extends JFrame {
 				if(gameRules.validateBoard(gameBoard.getPlayerBoard())) {
 					JOptionPane.showMessageDialog(solveButton.getParent(),
 							"Congratulations.");
+					player.setPlayerScore(player.getPlayerScore() + 10);
+					playerScore.setText("Score: "+player.getPlayerScore());
 				}
 				else {
 					JOptionPane.showMessageDialog(solveButton.getParent(),

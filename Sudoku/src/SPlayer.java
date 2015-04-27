@@ -36,7 +36,7 @@ public class SPlayer {
 	
 	public void setPlayerProfile(String profile) {
 		if(profile != "") {
-			if(profile.substring(
+			if(profile.length() > 4 && profile.substring(
 					profile.length() - 4,profile.length()) == ".txt") {
 				this.playerProfile = profile;
 			}
