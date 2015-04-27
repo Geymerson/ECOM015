@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 //import java.util.ArrayList;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 public class SOptions {
@@ -50,8 +52,8 @@ public class SOptions {
 		catch(FileNotFoundException e) {
 			System.out.println("File could not be opened!");
 		}
-        catch(IOException e) {
-        	e.printStackTrace();
+        catch(IOException ee) {
+        	ee.printStackTrace();
         }
 		finally {
 			bufferedWriter.close();
@@ -99,40 +101,40 @@ public class SOptions {
 		}
 	}//End method loadGame
 	
-//	ArrayList<SPlayer> loadRank() throws IOException {
-//		String line;
-//		SPlayer player = new SPlayer();
-//		ArrayList<SPlayer> playerList = new ArrayList<SPlayer>();
-//		BufferedReader bufferedReader = null;
-//		String[] temp;
-//		try {
-//			//Opening player's profile file
-//			bufferedReader =
-//					new BufferedReader(
-//							new FileReader("GameFiles/ranking.txt"));
-//			while((line = bufferedReader.readLine()) != null) {
-//				temp = line.split(",");				
-//				//System.out.println(temp[0]);
-//				player.setPlayerName(temp[0]);
-//				
-//				//System.out.println(temp[1]);
-//				player.setPlayerScore(Integer.parseInt(temp[1]));
-//				
-//				playerList.add(player);
-//				//System.out.print(playerList.size());
-//			}
-//		}
-//		catch(FileNotFoundException e) {
-//			JOptionPane.showMessageDialog(null,
-//					"Profile doesn't exist.",
-//					"Warning", JOptionPane.ERROR_MESSAGE);
-//		}
-//		catch(IOException ee) {
-//			ee.printStackTrace();
-//		}
-//		finally {
-//			bufferedReader.close();
-//		}
-//		return playerList;
-//	}//End method loadRank
+	ArrayList<SPlayer> loadRank() throws IOException {
+		String line;
+		ArrayList<SPlayer> playerList = new ArrayList<SPlayer>();
+		BufferedReader bufferedReader = null;
+		String[] temp;
+		try {
+			//Opening player's profile file
+			bufferedReader =
+					new BufferedReader(
+							new FileReader("GameFiles/ranking.txt"));
+			while((line = bufferedReader.readLine()) != null) {
+				SPlayer player = new SPlayer();
+				temp = line.split(",");				
+				//System.out.println(temp[0]);
+				player.setPlayerName(temp[0]);
+				
+				//System.out.println(temp[1]);
+				player.setPlayerScore(Integer.parseInt(temp[1]));
+				
+				playerList.add(player);
+				//System.out.print(playerList.size());
+			}
+		}
+		catch(FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null,
+					"Profile doesn't exist.",
+					"Warning", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(IOException ee) {
+			ee.printStackTrace();
+		}
+		finally {
+			bufferedReader.close();
+		}
+		return playerList;
+	}//End method loadRank
 }

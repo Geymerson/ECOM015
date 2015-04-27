@@ -1,11 +1,15 @@
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-//import javax.swing.JTable;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.border.TitledBorder;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -20,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 //import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class SGUI extends JFrame {
 	private GridBagLayout gameLayout;
@@ -27,6 +32,7 @@ public class SGUI extends JFrame {
 	private JTextField[] cell;
 	private JLabel playerName;
 	private JLabel playerScore;
+	private JLabel gameRankLabel;
 	private JButton solveButton;
 	private JButton showSolutionButton;
 	private JButton loadButton;
@@ -37,14 +43,17 @@ public class SGUI extends JFrame {
 	private JRadioButton mediumButton;
 	private JRadioButton hardButton;
 	private ButtonGroup difficultButtonsGroup;
-//	private JTable ranking;
+	private JTable ranking;
+	private JScrollPane scrollPane;
 	private Font font;
 	private SBoard gameBoard;
 	private SPlayer player;
 	private SOptions gameOptions;
 	private SRules gameRules;
 	private String difficult;
-//	private ArrayList<SPlayer> playerList; 
+	private ArrayList<SPlayer> playerList; 
+	String[] jTableColumns = {"Name", "Score"};
+	String[][] players;
 	
 	public SGUI() {
 		super("Sudoku");
@@ -58,15 +67,34 @@ public class SGUI extends JFrame {
 		gameOptions = new SOptions();
 		gameRules = new SRules();
 		difficult = "Easy";
+		players = new String[10][100];
 		
-//		try {
-//			playerList = gameOptions.loadRank();
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
+		
+		gameRankLabel = new JLabel("Top Solvers");
+		addComponent(gameRankLabel, 2, 11, 2, 1);
+		constraints.fill = GridBagConstraints.CENTER;
+		
+		try {
+			playerList = gameOptions.loadRank();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		for(int i = 0; i < playerList.size(); i++) {
+			String[] temp = {playerList.get(i).getPlayerName(),
+					Integer.toString(playerList.get(i).getPlayerScore())};
+			players[i] = temp;
+		}
 	
+		ranking = new JTable(players, jTableColumns);
+		ranking.setPreferredScrollableViewportSize(ranking.getPreferredSize());
+		scrollPane = new JScrollPane(ranking);
+		constraints.fill = GridBagConstraints.BOTH;
+		addComponent(scrollPane, 3, 11, 2, 5);
+		
 		easyButton = new JRadioButton("Easy", true);
 		easyButton.addItemListener(new DifficultButtonsHandler("Easy"));
+		constraints.fill = GridBagConstraints.BOTH;
 		addComponent(easyButton, 8, 0, 1, 1);
 		
 		mediumButton = new JRadioButton("Medium", false);
@@ -88,6 +116,7 @@ public class SGUI extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		
 		while(player.getPlayerName().isEmpty()) {
 			player.setPlayerName(
@@ -112,7 +141,6 @@ public class SGUI extends JFrame {
 
 		newGameButton = new JButton("New Game");
 		newGameButton.addActionListener(new ButtonHandler());
-		constraints.fill = GridBagConstraints.BOTH;
 		addComponent(newGameButton, 8, 11, 1, 1);
 
 		restartButton = new JButton("Restart Game");
@@ -134,7 +162,8 @@ public class SGUI extends JFrame {
 		solveButton = new JButton("Solve");
 		solveButton.addActionListener(new ButtonHandler());
 		addComponent(solveButton, 10, 12, 1, 1);
-
+		
+		constraints.fill = GridBagConstraints.NONE;
 		int counter = 0;
 
 		for(int row = 2; row < 11; row++) {
@@ -177,15 +206,22 @@ public class SGUI extends JFrame {
 					for(int column = 0; column < 9; column++) {
 						if(cell[atPosition].isEditable() &&
 								cell[atPosition].getText().length() == 1){
-							int cellValue = 
-									Integer.parseInt(cell[atPosition].getText());
-							if(cellValue >= 1 && cellValue <= 9) {
-								gameBoard.setCell(row,
-										column,
-										cellValue,
-										gameBoard.getPlayerBoard());
-							}
-							else {
+							try {
+								int cellValue = 
+										Integer.parseInt(cell[atPosition].getText());
+								if(cellValue >= 1 && cellValue <= 9) {
+									gameBoard.setCell(row,
+											column,
+											cellValue,
+											gameBoard.getPlayerBoard());
+								}
+								else {
+									gameBoard.setCell(row,
+											column,
+											0,
+											gameBoard.getPlayerBoard());
+								}
+							}catch(NumberFormatException e) {
 								gameBoard.setCell(row,
 										column,
 										0,
