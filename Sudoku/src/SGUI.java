@@ -2,22 +2,25 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
+//import javax.swing.JComboBox;
+
 
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.awt.Insets;
+//import java.awt.Insets;
 import java.awt.Component;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SGUI extends JFrame {
 	private GridBagLayout gameLayout;
@@ -35,11 +38,14 @@ public class SGUI extends JFrame {
 	private JRadioButton mediumButton;
 	private JRadioButton hardButton;
 	private ButtonGroup difficultButtonsGroup;
+	private JTable ranking;
 	private Font font;
 	private SBoard gameBoard;
 	private SPlayer player;
 	private SOptions gameOptions;
+	private SRules gameRules;
 	private String difficult;
+	//private ArrayList<SPlayer> playerList; 
 	
 	public SGUI() {
 		super("Sudoku");
@@ -53,7 +59,15 @@ public class SGUI extends JFrame {
 		gameBoard = new SBoard();
 		player = new SPlayer();
 		gameOptions = new SOptions();
+		gameRules = new SRules();
+		difficult = "Easy";
 		
+//		try {
+//			playerList = gameOptions.loadRank();
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+	
 		easyButton = new JRadioButton("Easy", true);
 		easyButton.addItemListener(new DifficultButtonsHandler("Easy"));
 		addComponent(easyButton, 8, 0, 1, 1);
@@ -72,7 +86,7 @@ public class SGUI extends JFrame {
 		difficultButtonsGroup.add(hardButton);
 		
 		try {
-			gameBoard.launchGameBoard("Hard");
+			gameBoard.launchGameBoard(difficult);
 			gameBoard.launchPlayerBoard();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -141,12 +155,11 @@ public class SGUI extends JFrame {
 					cell[counter].setEditable(false);
 				}
 				//cell[counter].setBackground(bg);
-				//constraints.fill = GridBagConstraints.BOTH;
 				addComponent(cell[counter], row, column + 1, 1, 1);
 				counter++;
 			}
 		}
-	}
+	}//End class empty constructor
 
 	private void addComponent(Component component,
 			int row, int column, int width, int height) {
@@ -154,11 +167,9 @@ public class SGUI extends JFrame {
 		constraints.gridy = row;
 		constraints.gridwidth = width;
 		constraints.gridheight = height;
-		//constraints.weightx = 1;
-		//constraints.weighty = 1;
 		gameLayout.setConstraints(component, constraints);
 		add(component);
-	}
+	}//End method addComponent
 
 	private class ButtonHandler implements ActionListener {
 		
@@ -188,8 +199,14 @@ public class SGUI extends JFrame {
 						atPosition++;
 					}
 				}
-//				JOptionPane.showMessageDialog(solveButton.getParent(),
-//						String.format("You pressed %s", event.getActionCommand()));
+				if(gameRules.validateBoard(gameBoard.getPlayerBoard())) {
+					JOptionPane.showMessageDialog(solveButton.getParent(),
+							"Congratulations.");
+				}
+				else {
+					JOptionPane.showMessageDialog(solveButton.getParent(),
+							"Wrong answer! Try again.");
+				}
 			}
 			else if (event.getSource() == showSolutionButton) {
 				int atPosition = 0;
@@ -224,6 +241,8 @@ public class SGUI extends JFrame {
 			else if (event.getSource() == saveButton) {
 				try {
 					gameOptions.saveGame(player, gameBoard);
+					JOptionPane.showMessageDialog(saveButton.getParent(),
+							"Game Saved.");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -240,7 +259,7 @@ public class SGUI extends JFrame {
 			}
 			else if (event.getSource() == newGameButton) {
 				try {
-					gameBoard.newBoard("Hard");
+					gameBoard.newBoard(difficult);
 					solveButton.setEnabled(true);
 					int atPosition = 0;
 					for(int row = 0; row < 9; row++) {
@@ -264,10 +283,10 @@ public class SGUI extends JFrame {
 				}
 			}
 		}
-	}
+	}//End class ButtonHandler
 	
 	private class DifficultButtonsHandler implements ItemListener {
-		
+		//Board difficult level
 		private String diffct;
 		
 		public DifficultButtonsHandler(String difficult) {
@@ -278,5 +297,5 @@ public class SGUI extends JFrame {
 		public void itemStateChanged(ItemEvent e) {
 			difficult = diffct;
 		}
-	}
+	}//End class DifficultButtonsHandler
 }
