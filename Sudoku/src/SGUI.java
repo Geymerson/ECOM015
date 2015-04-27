@@ -1,29 +1,23 @@
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.border.TitledBorder;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-//import java.awt.Insets;
 import java.awt.Component;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-//import java.util.ArrayList;
 import java.util.ArrayList;
 
 public class SGUI extends JFrame {
@@ -69,32 +63,30 @@ public class SGUI extends JFrame {
 		difficult = "Easy";
 		players = new String[10][100];
 		
-		
 		gameRankLabel = new JLabel("Top Solvers");
 		addComponent(gameRankLabel, 2, 11, 2, 1);
 		constraints.fill = GridBagConstraints.CENTER;
 		
+		//Loading player rank
 		try {
 			playerList = gameOptions.loadRank();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
 		for(int i = 0; i < playerList.size(); i++) {
 			String[] temp = {playerList.get(i).getPlayerName(),
 					Integer.toString(playerList.get(i).getPlayerScore())};
 			players[i] = temp;
 		}
-	
 		ranking = new JTable(players, jTableColumns);
 		ranking.setPreferredScrollableViewportSize(ranking.getPreferredSize());
 		scrollPane = new JScrollPane(ranking);
 		constraints.fill = GridBagConstraints.BOTH;
 		addComponent(scrollPane, 3, 11, 2, 5);
 		
+		//Setting difficult buttons
 		easyButton = new JRadioButton("Easy", true);
 		easyButton.addItemListener(new DifficultButtonsHandler("Easy"));
-		constraints.fill = GridBagConstraints.BOTH;
 		addComponent(easyButton, 8, 0, 1, 1);
 		
 		mediumButton = new JRadioButton("Medium", false);
@@ -110,6 +102,7 @@ public class SGUI extends JFrame {
 		difficultButtonsGroup.add(mediumButton);
 		difficultButtonsGroup.add(hardButton);
 		
+		//Launching game board
 		try {
 			gameBoard.launchGameBoard(difficult);
 			gameBoard.launchPlayerBoard();
@@ -118,9 +111,13 @@ public class SGUI extends JFrame {
 		}
 		
 		
-		while(player.getPlayerName().isEmpty()) {
-			player.setPlayerName(
-					JOptionPane.showInputDialog("Please, tell me your name!"));
+		try {
+			while(player.getPlayerName().isEmpty()) {
+				player.setPlayerName(
+						JOptionPane.showInputDialog("Please, tell me your name!"));
+			}
+		} catch (NullPointerException e) {
+			player.setPlayerName("Player");
 		}
 		player.setPlayerProfile(player.getPlayerName());
 		
