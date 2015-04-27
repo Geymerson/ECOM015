@@ -38,22 +38,20 @@ public class SGUI extends JFrame {
 	private JRadioButton mediumButton;
 	private JRadioButton hardButton;
 	private ButtonGroup difficultButtonsGroup;
-	private JTable ranking;
+//	private JTable ranking;
 	private Font font;
 	private SBoard gameBoard;
 	private SPlayer player;
 	private SOptions gameOptions;
 	private SRules gameRules;
 	private String difficult;
-	//private ArrayList<SPlayer> playerList; 
+//	private ArrayList<SPlayer> playerList; 
 	
 	public SGUI() {
 		super("Sudoku");
 		gameLayout = new GridBagLayout();
 		setLayout(gameLayout);
-		//setBackground(bgColor);
 		constraints = new GridBagConstraints();
-		//constraints.insets = new Insets(1,1,1,1);
 		font = new Font("SansSerif", Font.BOLD, 20);
 		cell = new JTextField[81];
 		gameBoard = new SBoard();
@@ -297,5 +295,5 @@ public class SGUI extends JFrame {
 		public void itemStateChanged(ItemEvent e) {
 			difficult = diffct;
 		}
-	}//End class DifficultButtonsHandler
-}
+	}//End inner class DifficultButtonsHandler
+}//End class SGUI

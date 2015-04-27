@@ -43,41 +43,41 @@ public class SBoard implements SBoardInterface {
 		else {
 			this.boardNumber = 0;
 		}
-	}
+	}//End method setBoardNumber
 
 	public int getBoardNumber() {
 		return this.boardNumber;
-	}
+	}//End method getBoardNumber
 
 	public int[][] getGameBoard() {
 		return this.gameBoard;
-	}
+	}//End method getGameBoard
 
 	public void setGameBoard(int [][] board) {
 		if(board != null) {
 			this.gameBoard = board;
 		}
-	}
+	}//End method setGameBoard
 
 	public int[][] getPlayerBoard() {
 		return this.playerBoard;
-	}
+	}//End method getPlayerBoard
 
 	public void setPlayerBoard(int [][] board) {
 		if(board != null) {
 			this.playerBoard = board;
 		}
-	}
+	}//End method setPlayerBoard
 
 	public int[][] getRestartBoard() {
 		return this.restartBoard;
-	}
+	}//End method getRestartBoard
 
 	public void setRestartBoard(int [][] board) {
 		if(board != null) {
 			this.restartBoard = board;
 		}
-	}
+	}//End method setRestartBoard
 
 	public void setCell(int row, int column, int value, int board[][]) {
 		if(row < 0 || row >= 9 || column < 0 || column >= 9
@@ -185,7 +185,7 @@ public class SBoard implements SBoardInterface {
 
 	public void restartBoard() {
 		this.setPlayerBoard(this.getRestartBoard());
-	}
+	}//End method restartBoard
 
 	public void newBoard(String difficult) throws IOException {
 		this.setBoardNumber(0);
@@ -199,5 +199,5 @@ public class SBoard implements SBoardInterface {
 			}
 		}
 		this.launchPlayerBoard();
-	}
+	}//End method newBoard
 }//End class SBoard

@@ -46,10 +46,4 @@ public interface SBoardInterface {
 	
 	//Launch a new board
 	public void newBoard(String difficult) throws IOException;;
-	
-	//Save current board
-	//public void saveBoard();
-	
-	//Load previous board
-	//public void loadBoard();
-}
+}//End interface SBoardInterface
