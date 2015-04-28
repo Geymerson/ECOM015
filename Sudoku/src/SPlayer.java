@@ -14,26 +14,31 @@ public class SPlayer {
 		this.playerProfile = "";
 	}
 	
+	//Get player name
 	public String getPlayerName() {
 		return this.playerName;
-	}
+	}//End method getPlayerName
 	
+	//Set player name
 	public void setPlayerName(String name) {
 		if(name != "") {
 			this.playerName = name;
 		}
-	}
+	}//End method setPlayerName
 	
+	//Get player score
 	public int getPlayerScore() {
 		return this.playerScore;
-	}
+	}//End method getPlayerScore
 	
+	//Set player score
 	public void setPlayerScore(int score) {
 		if(score >= 0) {
 			this.playerScore = score;
 		}
-	}
+	}//End method setPlayerScore
 	
+	//Set player profile
 	public void setPlayerProfile(String profile) {
 		if(profile != "") {
 			if(profile.length() > 4 && profile.substring(
@@ -44,9 +49,10 @@ public class SPlayer {
 				this.playerProfile = profile + ".txt";
 			}
 		}
-	}
+	}//End method setPlayerProfile
 	
+	//Get player profile
 	public String getPlayerProfile() {
 		return this.playerProfile;
-	}
+	}//End method getPlayerProfile
 }

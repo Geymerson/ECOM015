@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class SOptions {
-	
+	//Save game board and player information
 	public void saveGame(SPlayer player, SBoard board)
 			throws IOException {		
 		BufferedWriter playerBufferedWriter = null;
@@ -73,8 +73,9 @@ public class SOptions {
 			playerBufferedWriter.close();
 			rankingBufferedWriter.close();
 		}
-	}
+	}//End method saveGame
 	
+	//Load player board and information
 	public void loadGame(String profileName, SPlayer player,
 			SBoard board) throws IOException {
 		String line;
@@ -122,6 +123,7 @@ public class SOptions {
 		}
 	}//End method loadGame
 	
+	//Sort player list load game rank
 	ArrayList<SPlayer> loadRank() throws IOException {
 		String line;
 		ArrayList<SPlayer> playerList = new ArrayList<SPlayer>();
@@ -155,6 +157,7 @@ public class SOptions {
 		return playerList;
 	}//End method loadRank
 	
+	//Sort a player list
 	public ArrayList<SPlayer> sortPlayerList(ArrayList<SPlayer> list) {
 		ArrayList<SPlayer> tempList = list;
 		SPlayer tempPlayer;
@@ -173,5 +176,5 @@ public class SOptions {
 			}
 		}
 		return tempList;
-	}
+	}//End method sortPlayerList
 }

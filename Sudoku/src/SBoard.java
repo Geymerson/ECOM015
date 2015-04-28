@@ -34,6 +34,7 @@ public class SBoard implements SBoardInterface {
 		}
 	}
 
+	//Number of board loaded
 	public void setBoardNumber(int number) {
 		if((number >= 2 && number <= 11)||
 				(number >= 13 && number <= 22)||
@@ -45,40 +46,48 @@ public class SBoard implements SBoardInterface {
 		}
 	}//End method setBoardNumber
 
+	//Get loaded board number
 	public int getBoardNumber() {
 		return this.boardNumber;
 	}//End method getBoardNumber
 
+	//Return game board
 	public int[][] getGameBoard() {
 		return this.gameBoard;
 	}//End method getGameBoard
 
+	//Set game board
 	public void setGameBoard(int [][] board) {
 		if(board != null) {
 			this.gameBoard = board;
 		}
 	}//End method setGameBoard
 
+	//Get board being modified by the player
 	public int[][] getPlayerBoard() {
 		return this.playerBoard;
 	}//End method getPlayerBoard
 
+	//Set board that will be modified by the player
 	public void setPlayerBoard(int [][] board) {
 		if(board != null) {
 			this.playerBoard = board;
 		}
 	}//End method setPlayerBoard
 
+	//Get board initial state
 	public int[][] getRestartBoard() {
 		return this.restartBoard;
 	}//End method getRestartBoard
 
+	//Set board initial state
 	public void setRestartBoard(int [][] board) {
 		if(board != null) {
 			this.restartBoard = board;
 		}
 	}//End method setRestartBoard
 
+	//Set board cell
 	public void setCell(int row, int column, int value, int board[][]) {
 		if(row < 0 || row >= 9 || column < 0 || column >= 9
 				|| value < 0 || value > 9) {
@@ -87,6 +96,7 @@ public class SBoard implements SBoardInterface {
 		board[row][column] = value;
 	}//End method setCell
 
+	//Get board cell
 	public int getCell(int row, int column, int board[][]) {
 		if(row < 0 || row >= 9 || column < 0 || column >= 9) {
 			return -1;
@@ -94,6 +104,7 @@ public class SBoard implements SBoardInterface {
 		return board[row][column];
 	}//End method getCell	
 
+	//Load game board
 	public boolean launchGameBoard(String difficult) throws IOException {
 		//File line receiver
 		String line;
@@ -160,6 +171,7 @@ public class SBoard implements SBoardInterface {
 		return true;
 	}//End method launchGameBoard
 
+	//Load player board
 	public void launchPlayerBoard() {		
 		Random randomicNumberGenerator = new Random();
 		for(int row = 0; row < 9; row++) {
@@ -183,10 +195,12 @@ public class SBoard implements SBoardInterface {
 		this.setRestartBoard(this.getPlayerBoard());
 	}//End method launchPlayerBoard
 
+	//Load restart board
 	public void restartBoard() {
 		this.setPlayerBoard(this.getRestartBoard());
 	}//End method restartBoard
 
+	//Load a new board
 	public void newBoard(String difficult) throws IOException {
 		this.setBoardNumber(0);
 		this.launchGameBoard(difficult);

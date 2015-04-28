@@ -1,2 +1,4 @@
-Geymerson,20
-asdasd,0
+Fulano,50
+Cicrano,20
+Beltrano,30
+Deltrano,70

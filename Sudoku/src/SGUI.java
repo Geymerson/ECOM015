@@ -7,6 +7,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -163,8 +165,8 @@ public class SGUI extends JFrame {
 		addComponent(solveButton, 10, 12, 1, 1);
 		
 		constraints.fill = GridBagConstraints.NONE;
+		
 		int counter = 0;
-
 		for(int row = 2; row < 11; row++) {
 			for(int column = 1; column < 10; column ++) {
 				cell[counter] = new JTextField();
@@ -199,7 +201,7 @@ public class SGUI extends JFrame {
 	private class ButtonHandler implements ActionListener {
 		
 		public void actionPerformed(ActionEvent event) {
-			
+			//If solveButton was pressed
 			if(event.getSource() == solveButton) {
 				int atPosition = 0;
 				for(int row = 0; row < 9; row++) {
@@ -243,6 +245,7 @@ public class SGUI extends JFrame {
 							"Wrong answer! Try again.");
 				}
 			}
+			//If showSolutionButton was pressed
 			else if (event.getSource() == showSolutionButton) {
 				int atPosition = 0;
 				solveButton.setEnabled(false);
@@ -261,6 +264,7 @@ public class SGUI extends JFrame {
 					}
 				}
 			}
+			//If restartButton was pressed
 			else if (event.getSource() == restartButton) {
 				gameBoard.restartBoard();
 				solveButton.setEnabled(true);
@@ -275,6 +279,7 @@ public class SGUI extends JFrame {
 					}
 				}
 			}
+			//If saveButton was pressed
 			else if (event.getSource() == saveButton) {
 				try {
 					gameOptions.saveGame(player, gameBoard);
@@ -284,6 +289,7 @@ public class SGUI extends JFrame {
 					e.printStackTrace();
 				}
 			}
+			//If loadButton was pressed
 			else if (event.getSource() == loadButton) {
 				try {
 					String profileName  =
@@ -323,6 +329,7 @@ public class SGUI extends JFrame {
 					//Keep game running 
 				}
 			}
+			//If newGameButton was pressed
 			else if (event.getSource() == newGameButton) {
 				try {
 					gameBoard.newBoard(difficult);

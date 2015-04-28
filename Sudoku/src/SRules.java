@@ -1,4 +1,5 @@
 public class SRules {
+	//Validate board final state
 	public boolean validateBoard(int [][] board) {
 		int [][] tempBoard = board;
 		for(int row = 0; row < 9; row++) {
@@ -27,5 +28,5 @@ public class SRules {
 			}
 		}
 		return true;
-	}
-}
+	}//End method validateBoard
+}//End class SRules
