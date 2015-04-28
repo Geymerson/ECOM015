@@ -234,6 +234,7 @@ public class SGUI extends JFrame {
 				if(gameRules.validateBoard(gameBoard.getPlayerBoard())) {
 					JOptionPane.showMessageDialog(solveButton.getParent(),
 							"Congratulations.");
+					solveButton.setEnabled(false);
 					player.setPlayerScore(player.getPlayerScore() + 10);
 					playerScore.setText("Score: "+player.getPlayerScore());
 				}
