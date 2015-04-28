@@ -177,4 +177,4 @@ public class SOptions {
 		}
 		return tempList;
 	}//End method sortPlayerList
-}
+}//End class SOptions
