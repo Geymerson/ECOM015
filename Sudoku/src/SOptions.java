@@ -4,48 +4,61 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.BufferedReader;
-//import java.util.ArrayList;
-
 import java.util.ArrayList;
-import java.util.Collections;
-
 import javax.swing.JOptionPane;
 
 public class SOptions {
 	
-	public void saveGame(SPlayer player, SBoard board) throws IOException {		
-		BufferedWriter bufferedWriter = null;		
+	public void saveGame(SPlayer player, SBoard board)
+			throws IOException {		
+		BufferedWriter playerBufferedWriter = null;
+		BufferedWriter rankingBufferedWriter = null;
 		try {
+			
+			//Inserting player in the rank
+			rankingBufferedWriter =
+					new BufferedWriter(
+							new FileWriter("GameFiles/ranking.txt", true));
+			rankingBufferedWriter.write(player.getPlayerName());
+			rankingBufferedWriter.write(',');
+			rankingBufferedWriter.write(Integer.toString(player.getPlayerScore()));
+			rankingBufferedWriter.write('\n');
+			
 			//Creating player's profile file
-			bufferedWriter =
+			playerBufferedWriter =
 					new BufferedWriter(
 							new FileWriter("GameFiles/"+
 					player.getPlayerProfile()));
             //Saving player's name
-            bufferedWriter.write(player.getPlayerName());
-            bufferedWriter.write(',');
+			playerBufferedWriter.write(player.getPlayerName());
+			playerBufferedWriter.write(',');
             //Saving player's score
-            bufferedWriter.write(Integer.toString(player.getPlayerScore()));
-            bufferedWriter.write(',');
+			playerBufferedWriter.write(Integer.toString(player.getPlayerScore()));
+			playerBufferedWriter.write(',');
             //Saving player's board number
-            bufferedWriter.write(Integer.toString(board.getBoardNumber()));
-            bufferedWriter.write(",");
+			playerBufferedWriter.write(Integer.toString(board.getBoardNumber()));
+			playerBufferedWriter.write(",");
             
             //Save current player board state
             for(int row = 0; row < 9; row++) {
             	for(int column = 0; column < 9; column++) {
-            		bufferedWriter.write('(');
-            		bufferedWriter.write(Integer.toString(row));
-            		bufferedWriter.write(';');
-            		bufferedWriter.write(Integer.toString(column));
-            		bufferedWriter.write(';');
-            		bufferedWriter.write(Integer.toString(
+            		playerBufferedWriter.write('(');
+            		playerBufferedWriter.write(Integer.toString(row));
+            		playerBufferedWriter.write(';');
+            		playerBufferedWriter.write(Integer.toString(column));
+            		playerBufferedWriter.write(';');
+            		playerBufferedWriter.write(Integer.toString(
             				board.getCell(row,
             						column,
             						board.getPlayerBoard())));
-            		bufferedWriter.write(')');
+            		playerBufferedWriter.write(';');
+            		playerBufferedWriter.write(Integer.toString(
+            				board.getCell(row,
+            						column,
+            						board.getRestartBoard())));
+            		playerBufferedWriter.write(')');
             		if(!(row == 8 && column == 8)) {
-            			bufferedWriter.write(',');
+            			playerBufferedWriter.write(',');
             		}
             	}
             }
@@ -57,7 +70,8 @@ public class SOptions {
         	ee.printStackTrace();
         }
 		finally {
-			bufferedWriter.close();
+			playerBufferedWriter.close();
+			rankingBufferedWriter.close();
 		}
 	}
 	
@@ -81,12 +95,18 @@ public class SOptions {
 			board.launchGameBoard("");
 			
 			for(int i = 3; i < temp.length; i++) {
-				//temp[0] == row, temp[1] == column, temp[2] == value
-				String[] temp1 = temp[i].substring(1,6).split(";");
+				//temp1[0] == row, temp1[1] == column,
+				//temp1[2] == value, temp1[3] == restartValue
+				String[] temp1 = temp[i].substring(1,8).split(";");
 				board.setCell(Integer.parseInt(temp1[0]),
 						Integer.parseInt(temp1[1]),
-						Integer.parseInt(temp[2]),
+						Integer.parseInt(temp1[2]),
 						board.getPlayerBoard());
+				
+				board.setCell(Integer.parseInt(temp1[0]),
+						Integer.parseInt(temp1[1]),
+						Integer.parseInt(temp1[3]),
+						board.getRestartBoard());
 			}
         }
 		catch(FileNotFoundException e) {
@@ -115,14 +135,10 @@ public class SOptions {
 			while((line = bufferedReader.readLine()) != null) {
 				SPlayer player = new SPlayer();
 				temp = line.split(",");				
-				//System.out.println(temp[0]);
 				player.setPlayerName(temp[0]);
-				
-				//System.out.println(temp[1]);
 				player.setPlayerScore(Integer.parseInt(temp[1]));
-				
 				playerList.add(player);
-				//System.out.print(playerList.size());
+				playerList = this.sortPlayerList(playerList);
 			}
 		}
 		catch(FileNotFoundException e) {
@@ -138,4 +154,24 @@ public class SOptions {
 		}
 		return playerList;
 	}//End method loadRank
+	
+	public ArrayList<SPlayer> sortPlayerList(ArrayList<SPlayer> list) {
+		ArrayList<SPlayer> tempList = list;
+		SPlayer tempPlayer;
+		boolean swap = true;
+		
+		while(swap) {
+			swap = false;
+			for(int i = 0; i < tempList.size() - 1; i++) {
+				if(tempList.get(i).getPlayerScore() <
+				tempList.get(i + 1).getPlayerScore()){ 
+					tempPlayer = tempList.get(i);
+					tempList.set(i, tempList.get(i + 1));
+					tempList.set(i + 1, tempPlayer);
+					swap = true;
+				}
+			}
+		}
+		return tempList;
+	}
 }

@@ -1,3 +1,2 @@
-playerName,0
-fulano,12
-cicrano,12
+Geymerson,20
+asdasd,0

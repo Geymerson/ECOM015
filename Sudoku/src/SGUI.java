@@ -245,6 +245,7 @@ public class SGUI extends JFrame {
 			else if (event.getSource() == showSolutionButton) {
 				int atPosition = 0;
 				solveButton.setEnabled(false);
+				saveButton.setEnabled(false);
 				for(int row = 0; row < 9; row++) {
 					for(int column = 0; column < 9; column++) {
 						if(cell[atPosition].isEditable()){
@@ -262,6 +263,7 @@ public class SGUI extends JFrame {
 			else if (event.getSource() == restartButton) {
 				gameBoard.restartBoard();
 				solveButton.setEnabled(true);
+				saveButton.setEnabled(true);
 				int atPosition = 0;
 				for(int row = 0; row < 9; row++) {
 					for(int column = 0; column < 9; column++) {
@@ -282,19 +284,49 @@ public class SGUI extends JFrame {
 				}
 			}
 			else if (event.getSource() == loadButton) {
-				String profileName  =
-						JOptionPane.showInputDialog("Inform profile name");
 				try {
-					gameOptions.loadGame(profileName, player, gameBoard);
+					String profileName  =
+							JOptionPane.showInputDialog("Inform profile name");
 					
+					gameOptions.loadGame(profileName, player, gameBoard);
+					playerName.setText(player.getPlayerName());
+					playerScore.setText("Score: " + player.getPlayerScore());
+					
+					int atPosition = 0;
+					for(int row = 0; row < 9; row++) {
+						for(int column = 0; column < 9; column++) {
+							cell[atPosition].setText("");
+							cell[atPosition].setEditable(true);
+								int gameBoardCell =
+										gameBoard.getCell(row,
+												column,
+												gameBoard.getPlayerBoard());
+								if(gameBoardCell != 0) {
+									cell[atPosition].setText(Integer.toString(gameBoardCell));
+								}
+								gameBoardCell =
+										gameBoard.getCell(row,
+												column,
+												gameBoard.getRestartBoard());
+								if(gameBoardCell != 0) {
+									cell[atPosition].setText(Integer.toString(gameBoardCell));
+									cell[atPosition].setEditable(false);
+								}
+							atPosition++;
+						}
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
+				}
+				catch(NullPointerException ee) {
+					//Keep game running 
 				}
 			}
 			else if (event.getSource() == newGameButton) {
 				try {
 					gameBoard.newBoard(difficult);
 					solveButton.setEnabled(true);
+					saveButton.setEnabled(true);
 					int atPosition = 0;
 					for(int row = 0; row < 9; row++) {
 						for(int column = 0; column < 9; column ++) {
