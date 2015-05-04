@@ -4,23 +4,25 @@ import java.util.Scanner;
 public class Launch {
 	public static void main(String[] args) {
 		AccountManager manager;
-		Account userAccount;
+		Account userAccount = new Account();
 		ArrayList<Account> accounts;
 		
-		while(ch != 'C' || ch != 'L') {
+		Scanner userInput = new Scanner(System.in);
+		
+		while(true) {
 			System.out.println("Press C to creat a new a account");
 			System.out.println("Press L to login");
-			Scanner userInput = new Scanner(System.in);
 			String ch = userInput.nextLine();
-			break;
+			
+			if(ch.equals("C")) {
+				manager = new AccountManager(userAccount);
+				manager.createAccount();
+				break;
+			}
+			
+			else if(ch.equals("L")) {
+				break;
+			}
 		}
-		
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		
 	}
 }
