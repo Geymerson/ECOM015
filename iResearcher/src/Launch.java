@@ -11,11 +11,11 @@ public class Launch {
 		Scanner userInput = new Scanner(System.in);
 		
 		while(true) {
-			System.out.println("Press C to creat a new a account");
+			System.out.println("Press C to create a new a account");
 			System.out.println("Press L to login");
 			String ch = userInput.nextLine();
 			
-			if(ch.equals("C")) {
+			if(ch.equals("C") || ch.equals("c")) {
 				try {
 					manager.createAccount(userAccount);
 				} catch (IOException e) {
@@ -23,7 +23,7 @@ public class Launch {
 				}
 			}
 			
-			else if(ch.equals("L")) {
+			else if(ch.equals("L") || ch.equals("l")) {
 				System.out.println("Login:");
 				String login = userInput.nextLine();
 				System.out.println("Password");

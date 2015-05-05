@@ -1,8 +1,7 @@
 Login:
 Password:
 ProfileName:
-CreatedCommunities:
 FriendList:
-Messages:
+Messages/FriendResquests:
 <qweqweqwqweqweqweqweqweqweqweqweqw>
 

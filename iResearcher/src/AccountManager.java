@@ -61,19 +61,19 @@ public class AccountManager {
 	
 	//Create account
 	public void createAccount(Account userAcc) throws IOException {
-		Scanner userInput = new Scanner(System.in);
+		Scanner tempInput = new Scanner(System.in);
 		
 		//Login
 		System.out.println("Inform your login:");
-		userAcc.setLogin(userInput.nextLine());
+		userAcc.setLogin(tempInput.nextLine());
 		
 		//Password
 		System.out.println("Inform your password:");
-		userAcc.setPassword(userInput.nextLine());
+		userAcc.setPassword(tempInput.nextLine());
 		
 		//ProfileName
 		System.out.println("Inform your profile name:");
-		userAcc.setProfileName(userInput.nextLine());
+		userAcc.setProfileName(tempInput.nextLine());
 		
 		//Create account file
 		if(!accountList.contains(userAcc.getLogin())) {
@@ -99,7 +99,7 @@ public class AccountManager {
 		else {
 			System.out.println("User already exists");
 		}
-		userInput.close();
+		tempInput.close();
 	}//End method createAccount
 	
 	//Remove account
