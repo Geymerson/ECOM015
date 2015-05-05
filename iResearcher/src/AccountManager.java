@@ -23,11 +23,15 @@ public class AccountManager {
 		}
 	}
 	
+	public ArrayList<String> getAccountsList() {
+		return this.accountList;
+	}//End method getAccountsList
+	
 	//Load iResearchAccounts
 	public void loadAccounts() throws IOException  {
 		try {
 			bufferedReader = new BufferedReader(
-					new FileReader("programFiles/accounstList.txt"));
+					new FileReader("accounts/accounstList.txt"));
 			String line;
 			while((line = bufferedReader.readLine()) != null) {
 				accountList.add(line);
@@ -38,7 +42,7 @@ public class AccountManager {
 			try {
 				bufferedWriter =
 						new BufferedWriter(
-				new FileWriter("programFiles/accounstList.txt"));
+				new FileWriter("accounts/accounstList.txt"));
 			}
 			catch(IOException e2) {
 				e2.printStackTrace();
@@ -58,7 +62,6 @@ public class AccountManager {
 	//Create account
 	public void createAccount(Account userAcc) throws IOException {
 		Scanner userInput = new Scanner(System.in);
-		//userAccount = new Account();
 		
 		//Login
 		System.out.println("Inform your login:");
@@ -68,17 +71,23 @@ public class AccountManager {
 		System.out.println("Inform your password:");
 		userAcc.setPassword(userInput.nextLine());
 		
+		//ProfileName
 		System.out.println("Inform your profile name:");
 		userAcc.setProfileName(userInput.nextLine());
 		
-		if(!accountList.contains(userAcc.getProfileName())) {
+		//Create account file
+		if(!accountList.contains(userAcc.getLogin())) {
 			BufferedWriter bufferedWriter = null;
 			try {
 				bufferedWriter =
 						new BufferedWriter(
-				new FileWriter(userAcc.getProfileName()+".txt"));
+				new FileWriter(userAcc.getLogin()+".txt"));
 				bufferedWriter.write("Login:"+userAcc.getLogin());
+				bufferedWriter.write('\n');
 				bufferedWriter.write("Password:"+userAcc.getPassword());
+				bufferedWriter.write('\n');
+				bufferedWriter.write("Login:"+userAcc.getProfileName());
+				bufferedWriter.write('\n');
 			}
 			catch(IOException e2) {
 				e2.printStackTrace();
@@ -95,20 +104,24 @@ public class AccountManager {
 	
 	//Remove account
 	public void removeAccount(Account userAcc) throws IOException {
+		//Delete account file
 		File temp =
-				new File("programFiles/"+userAcc.getProfileName()+"txt");
+				new File("accounts/"+userAcc.getLogin()+".txt");
 		temp.delete();
-		accountList.remove(userAcc.getProfileName());
+		accountList.remove(userAcc.getLogin());
 		
+		//Refresh accountList file
 		BufferedWriter bufferedWriter = null;
 		try {
 			bufferedWriter =
 					new BufferedWriter(
-			new FileWriter("programFiles/accounstList.txt"));
+			new FileWriter("accounts/accounstList.txt"));
 			for(int i = 0; i < accountList.size(); i++) {
 				bufferedWriter.write(accountList.get(i));
-				bufferedWriter.write('\n');
 			}
+		}
+		catch(FileNotFoundException e1) {
+			System.out.println("User doesn't exist");
 		}
 		catch(IOException e2) {
 			e2.printStackTrace();
@@ -118,13 +131,8 @@ public class AccountManager {
 		}
 	}//End method removeAccount
 	
-	//Add friend
-	public void addFriend(Account userAccount, String friendName) {
-		userAccount.addFriend(friendName);	
-	}//End method addFriend
-	
 	//Send a message to another user
-	public void sendMessage(Account userAcc){
+	public void sendMessage(Account userAcc) throws IOException{
 		Scanner userInput = new Scanner(System.in);
 		String sender = userAcc.getProfileName();
 		
@@ -133,18 +141,51 @@ public class AccountManager {
 		
 		System.out.println("Message:");
 		String text = userInput.nextLine();
-		text = text + "\n\nFrom: " + sender;
+		text = text + "**From:" + sender;
 		
-		Message message = new Message(sender, receiver, text);
-		
-//		for(int acnts = 0; acnts < accounts.size(); acnts++) {
-//			if(accounts.get(acnts).getProfileName() == receiver) {
-//				Account tempAccount = accounts.get(acnts);
-//				tempAccount.newMessage(message);
-//				accounts.set(acnts, tempAccount);
-//				break;
-//			}
-//		}
+		BufferedWriter bufferedWriter = null;
+		try {			
+			bufferedWriter = new BufferedWriter(
+					new FileWriter(receiver+".txt", true));
+			bufferedWriter.write(text);
+		}
+		catch(FileNotFoundException e1) {
+			System.out.println("User Doesn't exist");
+		}
+		finally {
+			bufferedWriter.close();
+		}
 		userInput.close();
 	}//End method sendMessage
+	
+	public boolean validateAccount(String login, String password)
+			throws IOException {
+		BufferedReader bufferedReader = null;
+		try {
+			bufferedReader =
+					new BufferedReader(
+			new FileReader("accounts/"+login+".txt"));
+			String line;
+			for(int i = 0; (line = bufferedReader.readLine()) != null; i++) {
+				if(i == 1) {
+					if(password == line) {
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+			}
+		}
+		catch(FileNotFoundException e1) {
+			System.out.println("User doesn't exist");
+		}
+		catch(IOException e2) {
+			e2.printStackTrace();
+		}
+		finally {
+			bufferedReader.close();
+		}
+		return false;
+	}//End method validadeAccount
 }//End class AccountMenager
