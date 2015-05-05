@@ -40,7 +40,10 @@ public class Launch {
 				catch (IOException e) {
 					e.printStackTrace();
 				}
+				catch(NullPointerException e1) {
+					
+				}
 			}
 		}
-	}
-}
+	}//End method main
+}//End class Launch
