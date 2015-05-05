@@ -69,7 +69,7 @@ public class Community {
 	}//End method setDescription
 
 	public void saveCommunity() throws IOException {
-		//Refresh accountList file
+		//Refresh communityList file
 		BufferedWriter bufferedWriter = null;
 		try {
 			bufferedWriter =
