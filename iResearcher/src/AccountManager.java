@@ -146,7 +146,7 @@ public class AccountManager {
 		BufferedWriter bufferedWriter = null;
 		try {			
 			bufferedWriter = new BufferedWriter(
-					new FileWriter(receiver+".txt", true));
+					new FileWriter("accounts/"+receiver+".txt", true));
 			bufferedWriter.write(text);
 		}
 		catch(FileNotFoundException e1) {
@@ -157,6 +157,34 @@ public class AccountManager {
 		}
 		userInput.close();
 	}//End method sendMessage
+	
+	//Send a friend request to another user
+	public void friendRequest(Account userAcc)
+			throws IOException {
+		Scanner userInput = new Scanner(System.in);
+		String sender = userAcc.getProfileName();
+		
+		System.out.println("Friend name:");
+		String receiver = userInput.nextLine();
+	
+		//001 = code for friend request
+		String text = "001" + sender;
+		
+		BufferedWriter bufferedWriter = null;
+		try {			
+			bufferedWriter = new BufferedWriter(
+					new FileWriter("accounts/"+receiver+".txt", true));
+			bufferedWriter.write(text);
+			bufferedWriter.write('\n');
+		}
+		catch(FileNotFoundException e1) {
+			System.out.println("User Doesn't exist");
+		}
+		finally {
+			bufferedWriter.close();
+		}
+		userInput.close();
+	}//End method sendFriendRequest
 	
 	public boolean validateAccount(String login, String password)
 			throws IOException {

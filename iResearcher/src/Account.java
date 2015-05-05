@@ -90,6 +90,7 @@ public class Account {
 				manager.sendMessage(this);
 				break;
 			case 5:
+				manager.friendRequest(this);
 				break;
 			case 6:
 				break;
