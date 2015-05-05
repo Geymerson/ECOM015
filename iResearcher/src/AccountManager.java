@@ -108,11 +108,14 @@ public class AccountManager implements AccountManagerInterface {
 				bufferedWriter =
 						new BufferedWriter(
 								new FileWriter("accounts/"+userAcc.getLogin()+".txt"));
-				bufferedWriter.write("Login:"+userAcc.getLogin());
+				//Login
+				bufferedWriter.write(userAcc.getLogin());
 				bufferedWriter.write('\n');
-				bufferedWriter.write("Password:"+userAcc.getPassword());
+				//Password
+				bufferedWriter.write(userAcc.getPassword());
 				bufferedWriter.write('\n');
-				bufferedWriter.write("Login:"+userAcc.getProfileName());
+				//Profile name
+				bufferedWriter.write(userAcc.getProfileName());
 				bufferedWriter.write('\n');
 			}
 			catch(IOException e2) {

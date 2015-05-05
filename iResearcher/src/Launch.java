@@ -12,6 +12,7 @@ public class Launch {
 		
 		while(true) {
 			System.out.println("Press C to create a new a account");
+			System.out.println("Press R to delete your account");
 			System.out.println("Press L to login");
 			String ch = userInput.nextLine();
 			
@@ -32,6 +33,28 @@ public class Launch {
 				try {
 					if(manager.validateAccount(login, password)) {
 						userAccount.editProfile();
+					}
+					else {
+						System.out.println("Wrong login or password!");
+					}
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+				catch(NullPointerException e1) {
+					
+				}
+			}
+			else if(ch.equals("R") || ch.equals("r")) {
+				System.out.println("Login:");
+				String login = userInput.nextLine();
+				System.out.println("Password");
+				String password = userInput.nextLine();
+
+				try {
+					if(manager.validateAccount(login, password)) {
+						manager.removeAccount(userAccount);
+						userAccount = null;
 					}
 					else {
 						System.out.println("Wrong login or password!");
