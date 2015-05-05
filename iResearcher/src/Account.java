@@ -22,13 +22,13 @@ public class Account {
 		}
 	}//End method createProfile
 	
-	public void setAccountLogin(String accountLogin) {
+	public void setLogin(String accountLogin) {
 		if(accountLogin != "") {
 			this.accountLogin = accountLogin;
 		}
 	}//End method setAccountLogin
 	
-	public String getAccountLogin(){
+	public String getLogin(){
 		return this.accountLogin;
 	}//End method getAccountLogin
 	

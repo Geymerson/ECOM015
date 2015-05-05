@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,13 +16,17 @@ public class Launch {
 			String ch = userInput.nextLine();
 			
 			if(ch.equals("C")) {
-				manager = new AccountManager(userAccount);
-				manager.createAccount();
-				break;
+				manager = new AccountManager();
+				try {
+					manager.createAccount(userAccount);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				//break;
 			}
 			
 			else if(ch.equals("L")) {
-				break;
+				//break;
 			}
 		}
 	}
