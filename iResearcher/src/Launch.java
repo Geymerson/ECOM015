@@ -32,6 +32,7 @@ public class Launch {
 
 				try {
 					if(manager.validateAccount(login, password)) {
+						System.out.println("\n########################!");
 						userAccount.editProfile();
 					}
 					else {

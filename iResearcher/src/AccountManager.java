@@ -205,7 +205,7 @@ public class AccountManager implements AccountManagerInterface {
 			String line;
 			for(int i = 0; (line = bufferedReader.readLine()) != null; i++) {
 				if(i == 1) {
-					if(password == line) {
+					if(password.equals(line)) {
 						return true;
 					}
 					else {
