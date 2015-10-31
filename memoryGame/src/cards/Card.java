@@ -12,13 +12,10 @@ public class Card implements Cards {
 	
 	private ImageIcon cardIconImage;
 	
-	private JLabel cardLabel;
-	
 	public Card(String name) {
 		this.setName(name);
 		imagePath = imagePath + name;
 		cardIconImage = new ImageIcon(imagePath);
-		cardLabel = new JLabel("", cardIconImage, JLabel.CENTER);
 	}
 
 	public void setName(String name) {

@@ -1,7 +1,5 @@
 package app;
 
-import javax.swing.JFrame;
-
 import boardUI.BoardUI;
 
 public class App {
