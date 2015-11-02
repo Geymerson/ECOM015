@@ -9,57 +9,74 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Timer;
-import javax.swing.ImageIcon;
+import javax.swing.text.DefaultCaret;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import board.Board;
+import player.Player;
 
 public class BoardUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private Board board;
+
 	private JPanel boardPanel;
 	private JPanel buttonsPanel;
 	private JPanel gamePanel;
 	private JLabel[] cardsLabel;
-	private ImageIcon cardBackground;
-	private boolean lockedBoard;
+	private JTextField nameAndScoreField;
+	private JTextArea informationField;
+	private JButton[] buttons;
+
 	private MouseHandler mouseHandler;
 	private TimerListener timerHandler;
 	private Timer flipDelay;
 	private Timer memorizingTimer;
-	private int cardIndex;
-	private JTextField nameAndScoreField;
-	private JTextArea informationField;
 	private Font font;
-	private JButton[] buttons;
-	private CareTaker careTaker;
-	private Originator originator;
+	private int cardIndex;
+	
+	private Board board;
+	private MemorizingState memorizingState;
+	private StartingState startingState;
+	private Context context;
+	private DefaultCaret caret;
+	private Player player;
+	private boolean lockedBoard;
 
 	public BoardUI() {
+		askPlayerInfo();
 		startGame();
 	}
 
 	public void startGame() {
-		//Memento originator
-		originator = new Originator();
-		
-		//Memento list
-		careTaker = new CareTaker();
-		
+
+		//Start game states
+		context = new Context();
+		memorizingState = new MemorizingState();
+		startingState = new StartingState();
+
+		//Load and start board
+		board = new Board();
+		board.launchBoard();
+
+		//Unlock board so the player
+		//can click
+		lockedBoard = false;
+
 		//set flip and memorizing timer
 		timerHandler = new TimerListener();
 		flipDelay = new Timer(1000, timerHandler);
 		setMemorizingTimer();
 
+		//Set buttons panel
 		buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new GridLayout(1, 5, 3, 3));
+		buttonsPanel.setLayout(new GridLayout(1, 5, 2, 2));
 
 		//Game and board panels
 		gamePanel = new JPanel();
@@ -72,11 +89,8 @@ public class BoardUI extends JFrame {
 		//Set buttons on the panel
 		setButtons();
 
+		//Set font
 		font = new Font("Serif", Font.BOLD, 12);
-
-		//Set cards background
-		cardBackground = 
-				new ImageIcon("src/cardsImage/cardBackground.png");
 
 		//Set cards labels
 		cardsLabel = new JLabel[16];
@@ -84,63 +98,54 @@ public class BoardUI extends JFrame {
 		//Mouse event handler
 		mouseHandler = new MouseHandler();
 
-		//Load and start board
-		board = new Board();
-		board.launchBoard();
-		originator.setBoardState(board);
-
-		//Listen to mouse events while
-		//the board is not locked
-		lockedBoard = false;
-
 		//Set player name on the panel
 		setPlayerNameAndScoreField();
 
 		//Set information on the panel
 		setInformationField();
 
-		//Display board for 5 seconds
-		revealGameBoard();
-		memorizingTimer.start();
-		
-		//Save initial game state
-		careTaker.add(originator.saveCardsAndBoardStateToMemento());
+		//Set memorizing state
+		memorizingState.updateState(context);
+		context.getState().updateTextArea(informationField);
+		context.getState().updateBoard(board, cardsLabel, boardPanel);
 
+		//Display board for 5 seconds
+		memorizingTimer.start();
+
+		//Configure game graphical interface
 		gamePanel.add(boardPanel, BorderLayout.CENTER);
 		gamePanel.add(buttonsPanel, BorderLayout.SOUTH);
 		add(gamePanel, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(700, 600);
+		setSize(700, 610);
 		setResizable(false);
 		setVisible(true);
 	}
-	
-	public void revealGameBoard() {
 
-		if(cardsLabel == null) {
-			cardsLabel = new JLabel[16];
-		}
-
-		if(board == null) {
-			board = new Board();
-			board.launchBoard();
-		}
-
-		for(int i = 0; i < 16; i++) {
-			//Set card numbers
-			cardsLabel[i] = 
-					new JLabel("", 
-							board.getCardAt(i).getCardIconImage(),
-							JLabel.CENTER);
-			boardPanel.add(cardsLabel[i]);
-		}
+	public void askPlayerInfo() {
+		player = new Player(JOptionPane.showInputDialog("Player name:"));
 	}
 
 	public void setButtons() {
 		buttons = new JButton[5];
 
 		for(int i = 0; i < 5; i++) {
-			buttons[i] = new JButton("Button" + i);
+
+			if(i == 1 || i == 3) {
+				if(i == 1) {
+					buttons[i] = new JButton("New Game");
+				}
+				else if(i == 3) {
+					buttons[i] = new JButton("Restart");
+				}
+				buttons[i].addActionListener(new ButtonHandler());
+				buttons[i].setEnabled(false);
+			}
+
+			else {
+				buttons[i] = new JButton("Button" + i);
+				buttons[i].setVisible(false);
+			}
 			buttonsPanel.add(buttons[i]);
 		}
 	}
@@ -149,17 +154,17 @@ public class BoardUI extends JFrame {
 		memorizingTimer = new Timer(5000, new TimerListener(){
 			public void actionPerformed(ActionEvent arg0) {
 
-				//Set card numbers
-				for(int i = 0; i < 16; i++) {
-					cardsLabel[i].setIcon(cardBackground);
-					cardsLabel[i].addMouseListener( mouseHandler );
-				}
+				startingState.updateState(context);
+				context.getState().updateBoard(board, cardsLabel, mouseHandler);
 				
-				//Save initial cards state
-				originator.setCardsState(cardsLabel);
+				//Enable buttons
+				buttons[1].setEnabled(true);
+				buttons[3].setEnabled(true);
+				
 				//unlock board
 				lockedBoard = false;
-				informationField.append("\nTime is over, you might start now.");
+
+				context.getState().updateTextArea(informationField);
 				memorizingTimer.stop();
 			}
 		});
@@ -168,44 +173,90 @@ public class BoardUI extends JFrame {
 	public void setPlayerNameAndScoreField() {
 		nameAndScoreField = new JTextField();
 		nameAndScoreField.setFont(font);
-		nameAndScoreField.setText("Hello, Player;\tYour current score is: "+ 0 +" points");
+		updatePlayerNameAndScoreField();
 		nameAndScoreField.setEditable(false);
 		add(nameAndScoreField, BorderLayout.NORTH);
 	}
+	
+	public void updatePlayerNameAndScoreField() {
+		nameAndScoreField.setText("Hello, " + player.getName() +
+				";\tYour current score is: "+ player.getPlayerScore() +" points");
+	}
 
 	public void setInformationField() {
+
 		informationField = new JTextArea(4, 30);
 		informationField.setFont(font);
-		informationField.setText("You have 5 seconds to memorize...");
 		informationField.setEditable(false);
 		add(new JScrollPane(informationField), BorderLayout.SOUTH);
+
+		//Set auto-scrolling
+		caret = (DefaultCaret)informationField.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 	}
 
 	private class TimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg1) {
+
+			//Flip down cards
 			cardsLabel[cardIndex]
-					.setIcon(cardBackground);
+					.setIcon(board.getCardBackground().getCardIconImage());
 
 			cardsLabel[board.getLastClickednumber() - 1]
-					.setIcon(cardBackground);
+					.setIcon(board.getCardBackground().getCardIconImage());
+
 			board.setLastClickedNumber(0);
+
+			//Unlock board
 			lockedBoard = false;
 			flipDelay.stop();
 			informationField.append("\nThese cards don't match, try again!");
 		}
 	}
 
-	private class MouseHandler extends MouseAdapter {
+	private class ButtonHandler implements ActionListener {
+
+		public void actionPerformed(ActionEvent event) {
+			
+			player.setPlayerScore(0);
+			updatePlayerNameAndScoreField();
+			
+			if(event.getSource() == buttons[1]) {
+				
+				informationField.append("\nYou have 5 seconds to memorize.");
+				lockedBoard = true;
+				buttons[1].setEnabled(false);
+				buttons[3].setEnabled(false);
+				board.restartBoard();
+				
+				for(int i = 0; i < 16; i++) {
+					cardsLabel[i].removeMouseListener(mouseHandler);
+					cardsLabel[i].setIcon(board.getCardAt(i).getCardIconImage());
+				}
+				
+				memorizingTimer.start();
+			}
+			else {
+				informationField.append("\nYou might start now.");
+				startingState.updateState(context);
+				context.getState().updateBoard(board, cardsLabel, mouseHandler);
+			}
+		}
+	}
+
+	protected class MouseHandler extends MouseAdapter {
 		public void mouseClicked(MouseEvent event) {
 
 			if(!lockedBoard) {
 
+				//Get clicked card number
 				for(int i = 0; i < 16; i++) {
 					if(cardsLabel[i] == event.getSource()) {
 						cardIndex = i;
 					}
 				}
 
+				//Display clicked card
 				cardsLabel[cardIndex]
 						.setIcon(board.getCardAt(cardIndex).getCardIconImage());
 
@@ -217,6 +268,7 @@ public class BoardUI extends JFrame {
 					informationField.append("\nChoose one more card.");
 				}
 				else {
+					//If clicked cards match
 					if(board.getLastClickedName()
 							.equals(board.getCardAt(cardIndex).getName())) {
 
@@ -226,7 +278,15 @@ public class BoardUI extends JFrame {
 
 						cardsLabel[board.getLastClickednumber() - 1]
 								.removeMouseListener(mouseHandler);
+
 						board.setLastClickedNumber(0);
+
+						//Increase player score
+						player.setPlayerScore(
+								player.getPlayerScore() + 100);
+
+						//Update player score
+						updatePlayerNameAndScoreField();
 						informationField.append("\nThats a match! Well done.");
 					}
 					else {

@@ -7,6 +7,7 @@ import cards.CardsFactory;
 
 public class Board {
 	private Card[] board;
+	private Card background = new Card("cardBackground.png");
 	private String lastClickedName;
 	private int lastClickedNumber;
 
@@ -16,6 +17,14 @@ public class Board {
 		startBoard();
 	}
 
+	public void setCardBackground(Card background) {
+		this.background = background;
+	}
+	
+	public Card getCardBackground() {
+		return background;
+	}
+	
 	public void setBoard(Card [] board) {
 		if(board != null && board.length == 16) {
 			this.board = board;
@@ -77,4 +86,9 @@ public class Board {
 			}
 		}//end loop
 	}//end method launchBoard
+	
+	public void restartBoard() {
+		startBoard();
+		launchBoard();
+	}
 }//end class Board
