@@ -19,7 +19,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import board.Board;
+import board.BoardFactory;
+import board.NormalBoard;
 import player.Player;
 
 public class BoardUI extends JFrame {
@@ -40,8 +41,9 @@ public class BoardUI extends JFrame {
 	private Timer memorizingTimer;
 	private Font font;
 	private int cardIndex;
-	
-	private Board board;
+
+	private BoardFactory boardFactory;
+	private NormalBoard board;
 	private MemorizingState memorizingState;
 	private StartingState startingState;
 	private Context context;
@@ -62,7 +64,8 @@ public class BoardUI extends JFrame {
 		startingState = new StartingState();
 
 		//Load and start board
-		board = new Board();
+		boardFactory = new BoardFactory();
+		board = (NormalBoard) boardFactory.getBoard("normal");
 		board.launchBoard();
 
 		//Unlock board so the player
@@ -156,11 +159,11 @@ public class BoardUI extends JFrame {
 
 				startingState.updateState(context);
 				context.getState().updateBoard(board, cardsLabel, mouseHandler);
-				
+
 				//Enable buttons
 				buttons[1].setEnabled(true);
 				buttons[3].setEnabled(true);
-				
+
 				//unlock board
 				lockedBoard = false;
 
@@ -177,7 +180,7 @@ public class BoardUI extends JFrame {
 		nameAndScoreField.setEditable(false);
 		add(nameAndScoreField, BorderLayout.NORTH);
 	}
-	
+
 	public void updatePlayerNameAndScoreField() {
 		nameAndScoreField.setText("Hello, " + player.getName() +
 				";\tYour current score is: "+ player.getPlayerScore() +" points");
@@ -217,23 +220,23 @@ public class BoardUI extends JFrame {
 	private class ButtonHandler implements ActionListener {
 
 		public void actionPerformed(ActionEvent event) {
-			
+
 			player.setPlayerScore(0);
 			updatePlayerNameAndScoreField();
-			
+
 			if(event.getSource() == buttons[1]) {
-				
+
 				informationField.append("\nYou have 5 seconds to memorize.");
 				lockedBoard = true;
 				buttons[1].setEnabled(false);
 				buttons[3].setEnabled(false);
 				board.restartBoard();
-				
+
 				for(int i = 0; i < 16; i++) {
 					cardsLabel[i].removeMouseListener(mouseHandler);
 					cardsLabel[i].setIcon(board.getCardAt(i).getCardIconImage());
 				}
-				
+
 				memorizingTimer.start();
 			}
 			else {
