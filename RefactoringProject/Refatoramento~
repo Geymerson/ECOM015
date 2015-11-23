@@ -1,0 +1,30 @@
+para limpar ou compilar o projeto, entre na pasta do código fonte (por exemplo: JFLAP/src/ ou JFLAP_Refactoring/src/) e digite make clean para limpar ou make para compilar. Delete todos os .jars caso estes não sejam excluídos.
+Após compilado, permita que o arquivo JFLAP.jar
+
+
+Padrão Flyweight aplicado no pacote gui.transform
+	Alterações:
+		Criação das classes MatrixFactory, MatrixInterface;
+	
+	Modificação do funcionamento em outras classes:
+		pacote gui.lsystem, classe DisplayPane.java, linha 178 
+
+	comentários: a matrix agora é instanciada de acordo com o padrão flyweight, sendo assim novas instâncias são criadas caso ainda não existam, do contrário cópias da matrix são utilizadas
+
+Padrão Bridge aplicado aplicado ao pacote automata.graph
+	Alterações
+		Criação das classes AbstractGraph, GraphInterface, MyGraph
+
+	Modificações do funcionamento em outras classes:
+		pacote automata.graph.layout, classe VertexChain.java, linha 169
+
+	comentários: a classe concreta Graph.java que era utilizada de forma direta agora foi incorporada ao padrão Bridge e, a classe utilizada agora é a MyGraph, que possui interface, mas pode variar de forma independente e isso permite a implementação de outros tipos de estruturas de grafo para a aplicação, se necessário.
+
+Padrão Factory Method aplicado no pacote gui.sim.multiple
+	Alterações:
+		Criação das classes TableModel.java, TableModelFactory.java
+
+	Modificações: --
+
+	Comentários:
+		As classes TableModel.java e TableModelFactory.java foram criadas para que gerenciar a criação de objetos semelhantes a InputTableModel.
